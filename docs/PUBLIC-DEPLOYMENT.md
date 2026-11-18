@@ -2,7 +2,7 @@
 
 Сайт для защиты 25 ноября 2026 года:
 
-- Основной адрес: https://dusovstroimir.woodyebony32.chatgpt.site
+- Основной адрес: https://dusovstroimir.mooo.com
 - Резервный адрес GitHub Pages: https://ilovemytea.github.io/stroy_kb/
 - Исходный код: https://github.com/ilovemytea/stroy_kb
 
