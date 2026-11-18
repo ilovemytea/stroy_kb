@@ -6,7 +6,15 @@ let data,ix,disposeGraph=null,routeAbort=null;
 const examples=['минвата','гипсакартон','кирпич для фундамента','чем заменить газобетон',
   'какой утеплитель выбрать для бани чтобы он не горел',
   'какой бетон нужен для ленточного фундамента частного дома из газобетона'];
-const href=(path,params={})=>'#'+path+(Object.keys(params).length?'?'+new URLSearchParams(params):'');
+const APP_BASE = new URL('.', import.meta.url);
+const href=(path,params={})=>APP_BASE.pathname+path.replace(/^\/+|\/+$/g,'')+(path==='/'?'':'/')+(Object.keys(params).length?'?'+new URLSearchParams(params):'');
+function navigate(path,params={}) { history.pushState(null,'',href(path,params)); render(); }
+function routePath(url) { return '/'+url.pathname.slice(APP_BASE.pathname.length).replace(/(?:^|\/)index\.html$/,'').replace(/^\/+|\/+$/g,''); }
+const publishedBase = document.querySelector('meta[name="site-root"]')?.content;
+if(publishedBase)for(const a of document.querySelectorAll('a[href]')) {
+  const u=new URL(a.href),base=new URL(publishedBase);
+  if(u.origin===base.origin&&u.pathname.startsWith(base.pathname))a.href=APP_BASE.pathname+u.pathname.slice(base.pathname.length)+u.search+u.hash;
+}
 const link=(path,label,params={},className='')=>`<a ${className?`class="${className}"`:''} href="${esc(href(path,params))}">${esc(label)}</a>`;
 const conceptLink=c=>link('/concept/'+c.id,c.name,{},'chip tag');
 const safeURL=value=>{try {const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u.href:'#';}catch{return '#';}};
@@ -22,7 +30,7 @@ function searchbox(q='',label='Поиск по базе знаний'){
 function statsTiles(){return `<div class="tiles">${[[data.documents.length,'статей'],[data.concepts.length,'понятий онтологии'],[data.relations.length,'связей'],[data.rules.length,'экспертных правил']].map(([n,l])=>`<div class="tile"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('')}</div>`;}
 function home(){
   document.title='dusovstroimir — база знаний по строительным материалам';
-  return `<section class="hero"><p class="eyebrow">СтройМир · база знаний Дусова А.Э.</p><h1>Разберитесь в материалах.<br><span>Выберите подходящий.</span></h1><p class="intro">Состав, свойства и применение строительных материалов. Найдите ответ на свой вопрос или подберите материал с объяснением выбора.</p>${searchbox()}<div class="examples">${examples.slice(0,4).map(q=>link('/search',q,{q},'chip')).join('')}</div><div class="quick-links">${link('/expert','Подобрать материал',{},'btn')}${link('/concepts','Открыть базу знаний',{},'btn secondary')}</div></section>${statsTiles()}<div class="section-head"><h2>С чего начать</h2>${link('/about','О проекте и сценарии проверки')}</div><div class="article-list">${data.documents.filter(d=>[3,5,10,13,24,32].includes(d.id)).map(articleCard).join('')}</div><div class="section-head"><h2>Разделы базы знаний</h2>${link('/concepts','Все понятия')}</div>${data.categories.map(cat=>`<section class="concept-section"><h3>${esc(cat.name)}</h3><div class="examples">${data.concepts.filter(c=>c.category_id===cat.id).slice(0,12).map(conceptLink).join('')}</div></section>`).join('')}`;
+  return `<section class="hero"><p class="eyebrow">СтройМир · база знаний Дусова А.Э.</p><h1>Разберитесь в материалах.<br><span>Выберите подходящий.</span></h1><p class="intro">dusovstroimir — база знаний по строительным материалам. Найдите ответ на свой вопрос или подберите материал с объяснением выбора.</p>${searchbox()}<div class="examples">${examples.slice(0,4).map(q=>link('/search',q,{q},'chip')).join('')}</div><div class="quick-links">${link('/expert','Подобрать материал',{},'btn')}${link('/concepts','Открыть базу знаний',{},'btn secondary')}</div></section>${statsTiles()}<div class="section-head"><h2>С чего начать</h2>${link('/about','О проекте и сценарии проверки')}</div><div class="article-list">${data.documents.filter(d=>[3,5,10,13,24,32].includes(d.id)).map(articleCard).join('')}</div><div class="section-head"><h2>Разделы базы знаний</h2>${link('/concepts','Все понятия')}</div>${data.categories.map(cat=>`<section class="concept-section"><h3>${esc(cat.name)}</h3><div class="examples">${data.concepts.filter(c=>c.category_id===cat.id).slice(0,12).map(conceptLink).join('')}</div></section>`).join('')}`;
 }
 function articleCard(d){return `<article class="article-card"><small>${esc(d.type)}</small><h3>${link('/material/'+d.id,d.title)}</h3><p>${esc(d.summary)}</p></article>`;}
 function conceptGroups(cid){
@@ -104,11 +112,11 @@ function notFound(){return pageHead('Страница не найдена')+`<p>
 function bindSearch(){
   for(const box of main.querySelectorAll('.searchbox')){
     const form=box.querySelector('form'),input=box.querySelector('input'),suggest=box.querySelector('.suggest'),counter=box.querySelector('.counter');
-    form.addEventListener('submit',e=>{e.preventDefault();const q=input.value.trim();if(q)location.hash=href('/search',{q});});
+    form.addEventListener('submit',e=>{e.preventDefault();const q=input.value.trim();if(q)navigate('/search',{q});});
     input.addEventListener('input',()=>{
       const count=tokenize(input.value).length;counter.textContent=count?`${count} / 15 слов${count>15?' · учтём первые 15':''}`:'До 15 слов · можно задать вопрос целиком';
       const choices=ix.suggest(input.value);suggest.replaceChildren();
-      for(const text of choices){const li=document.createElement('li'),button=document.createElement('button');button.type='button';button.textContent=text;button.addEventListener('click',()=>{location.hash=href('/search',{q:text});});li.append(button);suggest.append(li);}
+      for(const text of choices){const li=document.createElement('li'),button=document.createElement('button');button.type='button';button.textContent=text;button.addEventListener('click',()=>{navigate('/search',{q:text});});li.append(button);suggest.append(li);}
       suggest.style.display=choices.length?'block':'none';
     });
     input.addEventListener('keydown',e=>{if(e.key==='Escape')suggest.style.display='none';if(e.key==='ArrowDown'&&suggest.firstElementChild){e.preventDefault();suggest.querySelector('button')?.focus();}});
@@ -123,7 +131,7 @@ function bindExpert(params){
     row.querySelectorAll('input').forEach(input=>input.disabled=!show);
   }};
   form.addEventListener('change',update);update();
-  form.addEventListener('submit',e=>{e.preventDefault();location.hash=href('/expert',current());});
+  form.addEventListener('submit',e=>{e.preventDefault();navigate('/expert',current());});
   if(params.get('element'))showExpertResult(current());
 }
 async function benchmark(button){
@@ -134,7 +142,11 @@ async function benchmark(button){
 function render(){
   if(!ix)return;if(location.hash==='#content'){main.focus();return;}
   disposeGraph?.();disposeGraph=null;routeAbort?.abort();routeAbort=new AbortController();
-  const url=new URL((location.hash.slice(1)||'/'),'https://dusovstroimir.local'),path=url.pathname,params=url.searchParams;
+  if(location.hash.startsWith('#/')) {
+    const legacy=new URL(location.hash.slice(1),'https://legacy.local');
+    history.replaceState(null,'',href(legacy.pathname,Object.fromEntries(legacy.searchParams)));
+  }
+  const url=new URL(location.href),path=routePath(url),params=url.searchParams;
   let html;
   if(path==='/')html=home();else if(path==='/search')html=searchPage(params);
   else if(/^\/material\/\d+$/.test(path))html=materialPage(Number(path.split('/')[2]),params);
@@ -144,12 +156,16 @@ function render(){
   else if(path==='/catalog')html=catalogPage();else if(path==='/stats')html=statsPage();
   else if(path==='/about')html=aboutPage();else html=notFound();
   main.innerHTML=html;main.setAttribute('aria-busy','false');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if(canonical && publishedBase)canonical.href=new URL(path.replace(/^\//,'')+(path==='/'?'':'/'),publishedBase).href;
+  const robots=document.querySelector('meta[name="robots"]');
+  if(robots)robots.content=['/search','/stats'].includes(path)?'noindex,follow':'index,follow,max-image-preview:large';
   document.getElementById('main-nav').classList.remove('open');document.getElementById('menu-toggle').setAttribute('aria-expanded','false');
-  document.querySelectorAll('.nav a').forEach(a=>{const active=a.hash.slice(1)===path;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  document.querySelectorAll('.nav a').forEach(a=>{const active=routePath(new URL(a.href))===path;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   bindSearch();bindExpert(params);
   if(path==='/graph')disposeGraph=mountGraph({nodes:data.concepts,links:data.relations.map(r=>({source:r.from,target:r.to,type:r.type}))},Number(params.get('focus'))||0);
-  for(const [id,key] of [['filter-type','type'],['filter-cat','cat']])document.getElementById(id)?.addEventListener('change',e=>{const p=Object.fromEntries(params);if(e.target.value)p[key]=e.target.value;else delete p[key];location.hash=href('/search',p);});
-  document.getElementById('concept-filter')?.addEventListener('submit',e=>{e.preventDefault();location.hash=href('/concepts',{q:new FormData(e.target).get('q')});});
+  for(const [id,key] of [['filter-type','type'],['filter-cat','cat']])document.getElementById(id)?.addEventListener('change',e=>{const p=Object.fromEntries(params);if(e.target.value)p[key]=e.target.value;else delete p[key];navigate('/search',p);});
+  document.getElementById('concept-filter')?.addEventListener('submit',e=>{e.preventDefault();navigate('/concepts',{q:new FormData(e.target).get('q')});});
   document.getElementById('benchmark')?.addEventListener('click',e=>benchmark(e.currentTarget));
   document.getElementById('clear-history')?.addEventListener('click',()=>{storage.set('recent',[]);render();});
   main.addEventListener('click',async e=>{if(e.target.id==='share-page'){try{await navigator.clipboard.writeText(location.href);toast('Ссылка скопирована');}catch{toast('Скопируйте адрес из строки браузера');}}},{signal:routeAbort.signal});
@@ -158,6 +174,16 @@ function render(){
 }
 document.getElementById('menu-toggle').addEventListener('click',e=>{const nav=document.getElementById('main-nav');nav.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(nav.classList.contains('open')));});
 window.addEventListener('hashchange',render);
+window.addEventListener('popstate',render);
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href]');
+  if(!a||a.target==='_blank'||a.hasAttribute('download')||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||e.button!==0||a.getAttribute('href').startsWith('#'))return;
+  const u=new URL(a.href);
+  if(u.origin!==location.origin||!u.pathname.startsWith(APP_BASE.pathname))return;
+  const path=routePath(u);
+  if(!/^\/(?:search|concepts|expert|graph|catalog|stats|about|rules|material\/\d+|concept\/\d+)?$/.test(path))return;
+  e.preventDefault(); navigate(path,Object.fromEntries(u.searchParams));
+});
 async function init(){
   try{
     const response=await fetch(new URL('./knowledge.json',import.meta.url));if(!response.ok)throw new Error('knowledge unavailable');

@@ -49,7 +49,7 @@ def catalog(source):
     return [dict(r) for r in rows]
 
 
-def build(source):
+def build(source, site_url='https://ilovemytea.github.io/dusovstroimir/'):
     sys.path.insert(0, str(source))
     from data import knowledge as K
     from search.engine import KnowledgeIndex, INTENTS, INTENT_TRIGGER_STEMS, RELATION_LABELS
@@ -111,6 +111,8 @@ def build(source):
     sw = dist / "sw.js"
     sw.write_text(sw.read_text(encoding="utf-8").replace("__BUILD__", version), encoding="utf-8")
     (dist / ".nojekyll").touch()
+    from seo import render_static_site
+    render_static_site(dist, payload, site_url)
 
     sys.path.insert(0, str(source / "docs"))
     from evaluate import GOLD
@@ -140,4 +142,6 @@ def build(source):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, default=HERE.parent)
-    build(parser.parse_args().source.resolve())
+    parser.add_argument("--site-url", default='https://ilovemytea.github.io/dusovstroimir/')
+    args = parser.parse_args()
+    build(args.source.resolve(), args.site_url)
