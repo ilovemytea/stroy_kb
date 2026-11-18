@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Онтология — СтройМир{% endblock %}
+{% block content %}
+<h1>Семантическая сеть понятий</h1>
+<p class="muted">Узлы — понятия, рёбра — отношения. Наведите на узел, чтобы выделить его связи; щелчок открывает понятие.
+Колесо мыши — масштаб, перетаскивание фона — сдвиг.</p>
+<div class="legend" id="legend"></div>
+<label class="muted" style="font-size:13px">Отношения:
+  <select id="relfilter">
+    <option value="">все</option>
+    {% for k, v in REL_LABELS.items() %}<option value="{{ k }}">{{ v[0] }}</option>{% endfor %}
+  </select>
+</label>
+<svg id="graph"></svg>
+{% endblock %}
+{% block scripts %}
+<script>
+const FOCUS = {{ focus|tojson }};
+const CONCEPT_URL = "{{ url_for('concept', cid=0) }}".replace(/0$/, "");
+</script>
+<script src="{{ url_for('static', filename='graph.js') }}"></script>
+{% endblock %}

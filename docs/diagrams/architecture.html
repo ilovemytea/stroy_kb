@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Архитектура</title>
+<style>
+  body { margin: 0; background: #fff; font-family: "Times New Roman", serif; color: #111; }
+  .wrap { width: 1200px; padding: 30px 40px; box-sizing: border-box; }
+  .layer { border: 2px solid #333; border-radius: 6px; padding: 14px 18px 18px; margin-bottom: 34px; position: relative; }
+  .layer > h3 { margin: 0 0 12px; font-size: 21px; }
+  .row { display: flex; gap: 14px; }
+  .box { flex: 1; border: 1.5px solid #555; border-radius: 4px; padding: 8px 10px; font-size: 17px; background: #f4f4f4; }
+  .box b { display: block; font-size: 18px; margin-bottom: 3px; }
+  .arrow { position: absolute; left: 50%; bottom: -32px; transform: translateX(-50%); font-size: 26px; line-height: 1; }
+</style></head>
+<body><div class="wrap">
+  <div class="layer"><h3>Уровень представления (браузер пользователя)</h3>
+    <div class="row">
+      <div class="box"><b>Поиск</b>строка запроса, автодополнение, счётчик слов (≤ 15)</div>
+      <div class="box"><b>Выдача</b>быстрый ответ, сниппеты, карточка понятия, фильтры</div>
+      <div class="box"><b>Онтология</b>граф семантической сети (SVG)</div>
+      <div class="box"><b>Подбор</b>диалог экспертной системы, объяснение вывода</div>
+      <div class="box"><b>Редактор</b>статьи, понятия, связи</div>
+    </div>
+    <div class="arrow">⇅ HTTP (HTML, JSON)</div>
+  </div>
+  <div class="layer"><h3>Уровень логики — веб-приложение Flask (Python)</h3>
+    <div class="row">
+      <div class="box"><b>app.py</b>маршруты страниц и API, журнал запросов, перестроение индекса</div>
+      <div class="box"><b>search/</b>стеммер, словарь опечаток, инвертированный индекс, BM25F, расширение запроса онтологией, намерения</div>
+      <div class="box"><b>expert.py</b>машина прямого вывода, коэффициенты уверенности MYCIN, трасса</div>
+      <div class="box"><b>db.py</b>доступ к БД через ODBC (pyodbc)</div>
+    </div>
+    <div class="arrow">⇅ T-SQL (ODBC Driver 17)</div>
+  </div>
+  <div class="layer"><h3>Уровень данных — Microsoft SQL Server, база StroyMir_KB</h3>
+    <div class="row">
+      <div class="box"><b>Схема kb: факты</b>Material, Tag, Category, MaterialTag, VideoSource, Publisher, Country, ContentType</div>
+      <div class="box"><b>Схема kb: знания</b>Relation (семантическая сеть), Rule, RuleCondition, Question</div>
+      <div class="box"><b>Схема dbo: каталог</b>Manufacturer, Category, Product, Batch, RawMaterial, Delivery</div>
+      <div class="box"><b>Программные объекты</b>представления, функции (рекурсивные), процедуры, триггеры, SearchLog</div>
+    </div>
+  </div>
+</div></body></html>

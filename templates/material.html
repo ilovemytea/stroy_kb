@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ m.title }} — СтройМир{% endblock %}
+{% block content %}
+<div class="two-col">
+  <article class="material">
+    <div class="meta">
+      <span>{{ m.type_name }}</span><span>{{ m.publisher_name }}</span><span>{{ m.country_name }}</span>
+      <span>{{ m.publish_date }}</span><span>просмотров: {{ m.views }}</span>
+    </div>
+    <h1>{{ m.title }}</h1>
+    {% if m.summary %}<p class="lead">{{ m.summary }}</p>{% endif %}
+    {% if body_html %}
+      {% for p in body_html %}<p>{{ p|safe }}</p>{% endfor %}
+    {% else %}
+      {% for p in m.body.split('\n') if p.strip() %}<p>{{ p }}</p>{% endfor %}
+    {% endif %}
+    {% if m.video_url %}
+      <p><a class="btn secondary" href="{{ m.video_url }}" target="_blank" rel="noopener">▶ Видео по теме ({{ m.video_platform }}{% if m.duration_sec %}, {{ m.duration_sec|duration }}{% endif %})</a></p>
+    {% endif %}
+  </article>
+  <aside>
+    <div class="card">
+      <div class="cat">Теги статьи</div>
+      <table class="grid" style="margin-top:8px">
+        <tr><th>Понятие</th><th class="num">Релев.</th><th class="num">Место</th></tr>
+        {% for t in m.tags %}
+          <tr><td><a href="{{ url_for('concept', cid=t.id_tag) }}">{{ t.name }}</a></td>
+              <td class="num">{{ t.relevance }}</td><td class="num">{{ t.position_in_results or '' }}</td></tr>
+        {% endfor %}
+      </table>
+      <small>«Место» — позиция статьи среди материалов с этим тегом (процедура kb.usp_RecalcRanks).</small>
+    </div>
+    {% if hl %}<p><a href="{{ url_for('search', q=hl) }}">← к результатам «{{ hl }}»</a></p>{% endif %}
+    {% if is_admin %}<p><a href="{{ url_for('admin_material', mid=m.id_material) }}">Редактировать статью</a></p>{% endif %}
+  </aside>
+</div>
+{% endblock %}

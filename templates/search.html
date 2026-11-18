@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}{{ q }} — поиск СтройМир{% endblock %}
+{% block content %}
+{% set ORIGIN = {'query': 'слово запроса', 'synonym': 'синоним понятия', 'child': 'вид понятия', 'intent': 'слово-намерение'} %}
+<div class="qinfo">
+  Тип запроса: <span class="kind">{{ pq.kind }}</span> · {{ pq.words|length }} сл. ·
+  найдено {{ res.total }} за {{ '%.1f'|format(res.took_ms) }} мс
+  {% if pq.intent %} · намерение: <b>{{ pq.intent[2] }}</b>{% endif %}
+</div>
+
+{% if pq.truncated %}
+  <div class="notice warn">Запрос длиннее {{ MAX_QUERY_WORDS }} слов — учтены только первые {{ MAX_QUERY_WORDS }}.</div>
+{% endif %}
+{% if pq.corrected %}
+  <div class="notice">Показаны результаты по запросу
+    <a href="{{ url_for('search', q=pq.corrected) }}"><b><i>{{ pq.corrected }}</i></b></a>.
+    Исходный запрос: «{{ q }}».</div>
+{% endif %}
+
+<nav class="tabs">
+  <a href="{{ url_for('search', q=q) }}" class="{{ 'active' if not type_id and not cat_id }}">Все</a>
+  {% for t in types %}
+    <a href="{{ url_for('search', q=q, type=t.id_type) }}" class="{{ 'active' if type_id == t.id_type }}">{{ t.name }}</a>
+  {% endfor %}
+</nav>
+
+<div class="results-layout">
+  <section>
+    {% if res.answer %}
+      <div class="answer">
+        <div class="label">Быстрый ответ</div>
+        <p>{{ res.answer.text_html|safe }}</p>
+        <small>Источник: <a href="{{ url_for('material', mid=res.answer.doc.id, hl=q) }}">{{ res.answer.doc.title }}</a></small>
+      </div>
+    {% endif %}
+
+    {% for r in res.results %}
+      <div class="result">
+        <div class="crumbs">{{ r.doc.type }} · {{ r.doc.publisher }} · {{ r.doc.date }}{% if r.doc.video %} · ▶ видео {{ r.doc.video[2]|duration }}{% endif %}</div>
+        <h3><a href="{{ url_for('material', mid=r.doc.id, hl=q) }}">{{ r.title_html|safe }}</a></h3>
+        <p>{{ r.snippet_html|safe }}</p>
+        <div class="tags">
+          {% for t in r.doc.tags[:5] %}<a class="chip tag" href="{{ url_for('concept', cid=t.id) }}">{{ t.name }}</a>{% endfor %}
+        </div>
+        <details class="why"><summary>Почему найдено</summary>
+          BM25F = {{ r.explain.bm25 }}, покрытие запроса = {{ (r.explain.coverage * 100)|round|int }} %,
+          близость слов = {{ r.explain.proximity }}, релевантность тега = {{ r.explain.tag }},
+          итоговый ранг = {{ r.score }}.<br>Совпали: {{ r.explain.matched|join(', ') }}
+        </details>
+      </div>
+    {% else %}
+      <div class="empty">
+        <p>По запросу «{{ q }}» ничего не найдено.</p>
+        <p>Попробуйте другое слово, синоним или задайте вопрос иначе.</p>
+      </div>
+    {% endfor %}
+
+    {% if res.related %}
+      <h3>Связанные понятия</h3>
+      <div class="examples" style="justify-content:flex-start">
+        {% for c in res.related %}<a class="chip" href="{{ url_for('search', q=c.name) }}">{{ c.name }}</a>{% endfor %}
+      </div>
+    {% endif %}
+  </section>
+
+  <aside>
+    {% for card in res.concept_cards %}
+      {% set c = card.concept %}
+      <div class="card">
+        <div class="cat">{{ c.category }}</div>
+        <h3><a href="{{ url_for('concept', cid=c.id) }}">{{ c.name }}</a></h3>
+        <p style="margin:4px 0">{{ c.description }}</p>
+        {% if c.synonyms %}<small>Синонимы: {{ c.synonyms|join(', ') }}</small>{% endif %}
+        <dl>
+          {% if card.focus %}
+            <dt class="focus">{{ card.intent_title }}</dt>
+            <dd class="focus">{% for x in card.relations[card.focus] %}<a href="{{ url_for('concept', cid=x.id) }}">{{ x.name }}</a>{{ ', ' if not loop.last }}{% endfor %}</dd>
+          {% endif %}
+          {% for label, items in card.relations.items() if label != card.focus %}
+            <dt>{{ label }}</dt>
+            <dd>{% for x in items[:8] %}<a href="{{ url_for('concept', cid=x.id) }}">{{ x.name }}</a>{{ ', ' if not loop.last }}{% endfor %}</dd>
+          {% endfor %}
+        </dl>
+      </div>
+    {% endfor %}
+
+    {% if res.products %}
+      <div class="card">
+        <div class="cat">Каталог</div>
+        <h3>Товары</h3>
+        <ul class="products" style="padding-left:18px;margin:8px 0 0">
+          {% for p in res.products %}
+            <li>{{ p.name }}<br><small>{{ p.manufacturer }}{% if p.price %} · от {{ '%.2f'|format(p.price) }} руб./{{ p.unit }}{% endif %}</small></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="card">
+      <div class="cat">Как понят запрос</div>
+      <dl>
+        {% for t in pq.terms %}
+          <dd style="margin:3px 0"><code>{{ t.stem }}</code> <small>— {{ ORIGIN[t.origin] }}{% if t.origin != 'query' %} ({{ t.label }}){% endif %}, вес {{ t.weight }}</small></dd>
+        {% endfor %}
+      </dl>
+    </div>
+  </aside>
+</div>
+{% endblock %}

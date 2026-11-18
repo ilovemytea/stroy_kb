@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name }} — понятие СтройМир{% endblock %}
+{% block content %}
+<div class="two-col">
+  <section>
+    <div class="card">
+      <div class="cat">{{ c.category }}</div>
+      <h1 style="margin:4px 0 8px">{{ c.name }}</h1>
+      <p style="font-size:17px">{{ c.definition }}</p>
+      {% if c.synonyms_list %}<p><small>Синонимы и сокращения:</small> {% for s in c.synonyms_list %}<span class="chip">{{ s }}</span> {% endfor %}</p>{% endif %}
+      {% if c.ancestors %}
+        <p><small>Иерархия (рекурсивная функция kb.fn_ConceptAncestors):</small><br>
+          {{ c.name }} {% for a in c.ancestors %} → <a href="{{ url_for('concept', cid=a.id_tag) }}">{{ a.name }}</a>{% endfor %}</p>
+      {% endif %}
+      <p><a href="{{ url_for('search', q=c.name) }}">Искать «{{ c.name }}»</a> ·
+         <a href="{{ url_for('graph', focus=c.id_tag) }}">Показать на графе</a>
+         {% if is_admin %} · <a href="{{ url_for('admin_concept', cid=c.id_tag) }}">Редактировать</a>{% endif %}</p>
+    </div>
+
+    <h2>Семантические связи</h2>
+    {% for label, items in groups.items() %}
+      <div class="card">
+        <div class="cat">{{ label }}</div>
+        <div class="examples" style="justify-content:flex-start;margin-top:8px">
+          {% for n in items %}<a class="chip tag" href="{{ url_for('concept', cid=n.id_tag) }}">{{ n.name }}</a>{% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <p class="muted">Связей пока нет.</p>
+    {% endfor %}
+
+    {% if c.inherited %}
+      <h2>Унаследованные знания</h2>
+      <p class="muted">Факты, заданные для более общих понятий, распространяются и на «{{ c.name }}» (функция kb.fn_InheritedFacts).</p>
+      <div class="table-wrap"><table class="grid">
+        <tr><th>От понятия</th><th>Связь</th><th>Значение</th></tr>
+        {% for f in c.inherited %}
+          <tr><td>{{ f.from_concept }}</td><td>{{ REL_LABELS.get(f.relation_type, [f.relation_type])[0] }}</td>
+              <td><a href="{{ url_for('concept', cid=f.id_tag) }}">{{ f.name }}</a></td></tr>
+        {% endfor %}
+      </table></div>
+    {% endif %}
+  </section>
+  <aside>
+    <div class="card">
+      <div class="cat">Статьи с этим тегом</div>
+      <ol style="padding-left:20px;margin:8px 0 0">
+        {% for m in c.materials %}
+          <li><a href="{{ url_for('material', mid=m.id_material) }}">{{ m.title }}</a> <small>({{ m.relevance }})</small></li>
+        {% else %}<li class="muted">нет</li>{% endfor %}
+      </ol>
+    </div>
+  </aside>
+</div>
+{% endblock %}

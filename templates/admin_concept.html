@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name if c else 'Новое понятие' }} — редактор{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('admin') }}">← к списку</a></p>
+<h1>{{ 'Понятие: ' ~ c.name if c else 'Новое понятие' }}</h1>
+<form method="post" class="form">
+  <div class="row">
+    <label>Название<input name="name" required maxlength="100" value="{{ c.name if c else '' }}"></label>
+    <label>Категория<select name="id_category">
+      {% for k in categories %}<option value="{{ k.id_category }}" {{ 'selected' if c and c.id_category == k.id_category }}>{{ k.name }}</option>{% endfor %}
+    </select></label>
+  </div>
+  <label>Синонимы через «;» — по ним работает расширение поискового запроса
+    <input name="synonyms" maxlength="500" value="{{ c.synonyms if c and c.synonyms else '' }}"></label>
+  <label>Определение<textarea name="definition" maxlength="600" style="min-height:80px">{{ c.definition if c and c.definition else '' }}</textarea></label>
+  <div><button class="btn" type="submit">Сохранить</button>
+    {% if c %}<a class="btn secondary" href="{{ url_for('concept', cid=c.id_tag) }}">Открыть</a>{% endif %}</div>
+</form>
+
+{% if c %}
+<h2>Связи</h2>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Понятие</th><th>Отношение</th><th>Понятие</th><th></th></tr>
+  {% for r in relations %}
+    <tr><td>{{ r.src }}</td><td>{{ r.relation_type }}</td><td>{{ r.dst }}</td>
+        <td><form method="post"><input type="hidden" name="action" value="del_relation">
+          <input type="hidden" name="id_relation" value="{{ r.id_relation }}"><button class="btn secondary" style="padding:3px 10px">удалить</button></form></td></tr>
+  {% endfor %}
+</table></div>
+<form method="post" class="form">
+  <input type="hidden" name="action" value="add_relation">
+  <datalist id="all-concepts">{% for n in all_concepts %}<option value="{{ n }}">{% endfor %}</datalist>
+  <div class="row">
+    <label>От понятия<input name="src" list="all-concepts" value="{{ c.name }}" required></label>
+    <label>Отношение<select name="relation_type">{% for t in rel_types %}<option>{{ t }}</option>{% endfor %}</select></label>
+    <label>К понятию<input name="dst" list="all-concepts" required></label>
+  </div>
+  <div><button class="btn" type="submit">Добавить связь</button></div>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Вход в редактор — СтройМир{% endblock %}
+{% block content %}
+<h1>Редактор базы знаний</h1>
+<form method="post" class="form" style="max-width:340px">
+  <label>Пароль редактора<input type="password" name="password" autofocus required></label>
+  <div><button class="btn" type="submit">Войти</button></div>
+</form>
+{% endblock %}

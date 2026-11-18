@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ m.title if m and m.title else 'Новая статья' }} — редактор{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('admin') }}">← к списку</a></p>
+<h1>{{ 'Редактирование статьи' if m and m.id_material else 'Новая статья' }}</h1>
+<form method="post" class="form">
+  <label>Заголовок<input name="title" required maxlength="200" value="{{ m.title if m else '' }}"></label>
+  <label>Краткое описание<input name="summary" maxlength="500" value="{{ m.summary if m and m.summary else '' }}"></label>
+  <div class="row">
+    <label>Тип материала<select name="id_type">
+      {% for t in types %}<option value="{{ t.id_type }}" {{ 'selected' if m and m.id_type == t.id_type }}>{{ t.name }}</option>{% endfor %}
+    </select></label>
+    <label>Издание<select name="id_izdanie">
+      {% for p in publishers %}<option value="{{ p.id_izdanie }}" {{ 'selected' if m and m.id_izdanie == p.id_izdanie }}>{{ p.name }}</option>{% endfor %}
+    </select></label>
+    <label>Страна<select name="id_country"><option value="">— как у издания —</option>
+      {% for c in countries %}<option value="{{ c.id_country }}" {{ 'selected' if m and m.id_country == c.id_country }}>{{ c.name }}</option>{% endfor %}
+    </select></label>
+    <label>Дата публикации<input type="date" name="publish_date" value="{{ m.publish_date if m and m.publish_date else '' }}"></label>
+  </div>
+  <label>Текст статьи (абзацы — с новой строки, не короче 50 символов)
+    <textarea name="body" required minlength="50" style="min-height:320px">{{ m.body if m else '' }}</textarea></label>
+  <label>Теги: по одному в строке в формате «Понятие | релевантность 0–1»
+    <textarea name="tags" list="concepts" style="min-height:110px">{% if m %}{% for t in m.tags %}{{ t.name }} | {{ t.relevance }}
+{% endfor %}{% endif %}</textarea></label>
+  <small class="muted">Доступные понятия: {{ all_concepts|join(', ') }}</small>
+  <div class="row">
+    <label>Видео: платформа<input name="video_platform" value="{{ m.platform if m and m.platform else 'YouTube' }}"></label>
+    <label>Видео: ссылка<input name="video_url" type="url" value="{{ m.url if m and m.url else '' }}"></label>
+    <label>Длительность, с<input name="video_duration" type="number" min="1" value="{{ m.duration_sec if m and m.duration_sec else '' }}"></label>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn" type="submit">Сохранить</button>
+    {% if m and m.id_material %}
+      <button class="btn danger" type="submit" name="delete" value="1" formnovalidate
+              onclick="return confirm('Удалить статью?')">Удалить</button>
+      <a class="btn secondary" href="{{ url_for('material', mid=m.id_material) }}">Открыть</a>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

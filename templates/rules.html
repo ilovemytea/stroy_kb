@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}База правил — СтройМир{% endblock %}
+{% block content %}
+<h1>База правил экспертной системы</h1>
+<p class="muted">Продукционные правила хранятся в таблицах kb.Rule и kb.RuleCondition. Правила-факты выводят промежуточные
+факты рабочей памяти, правила-рекомендации изменяют коэффициент уверенности (CF) для материала.</p>
+<h2>Вопросы (атрибуты)</h2>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Атрибут</th><th>Вопрос</th><th>Варианты</th><th>Задаётся, если</th></tr>
+  {% for q in questions %}
+    <tr><td><code>{{ q.attribute }}</code></td><td>{{ q.question_text }}</td><td>{{ q.options_list|join(' / ') }}</td>
+        <td>{% if q.cond_attribute %}{{ q.cond_attribute }} ∈ {{ q.cond_values_list|join(', ') }}{% endif %}</td></tr>
+  {% endfor %}
+</table></div>
+<h2>Правила ({{ rules|length }})</h2>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Код</th><th>ЕСЛИ</th><th>ТО</th><th class="num">CF</th><th>Пояснение</th></tr>
+  {% for r in rules %}
+    <tr><td>{{ r.code }}</td>
+        <td>{% for a, v in r.conditions %}{{ a }} = «{{ v }}»{{ ' И ' if not loop.last }}{% endfor %}</td>
+        <td>{% if r.then_kind == 'fact' %}{{ r.then_attribute }} = «{{ r.then_value }}»{% else %}<a href="{{ url_for('concept', cid=r.id_tag) }}">{{ r.tag_name }}</a>{% endif %}</td>
+        <td class="num">{{ '%+.2f'|format(r.cf) }}</td><td>{{ r.explanation }}</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

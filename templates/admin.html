@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Редактор — СтройМир{% endblock %}
+{% block content %}
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+  <h1 style="margin-right:auto">Редактор базы знаний</h1>
+  <a class="btn" href="{{ url_for('admin_material') }}">+ Статья</a>
+  <a class="btn" href="{{ url_for('admin_concept') }}">+ Понятие</a>
+  <form method="post" action="{{ url_for('admin_reindex') }}"><button class="btn secondary">Перестроить индекс</button></form>
+  <a class="btn secondary" href="{{ url_for('admin_logout') }}">Выйти</a>
+</div>
+
+<h2>Статьи ({{ materials|length }})</h2>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Заголовок</th><th>Тип</th><th>Издание</th><th>Дата</th><th class="num">Просмотры</th></tr>
+  {% for m in materials %}
+    <tr><td><a href="{{ url_for('admin_material', mid=m.id_material) }}">{{ m.title }}</a></td><td>{{ m.type_name }}</td>
+        <td><small>{{ m.publisher_name }}</small></td><td>{{ m.publish_date }}</td><td class="num">{{ m.views }}</td></tr>
+  {% endfor %}
+</table></div>
+
+<h2>Понятия ({{ concepts|length }})</h2>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Понятие</th><th>Категория</th><th>Синонимы</th><th class="num">Статей</th><th class="num">Связей</th></tr>
+  {% for c in concepts %}
+    <tr><td><a href="{{ url_for('admin_concept', cid=c.id_tag) }}">{{ c.name }}</a></td><td>{{ c.category }}</td>
+        <td><small>{{ c.synonyms or '' }}</small></td><td class="num">{{ c.materials }}</td><td class="num">{{ c.relations }}</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

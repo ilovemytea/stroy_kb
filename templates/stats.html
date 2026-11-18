@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Статистика — СтройМир{% endblock %}
+{% block content %}
+<h1>Исследование характеристик базы знаний</h1>
+<div class="tiles" style="margin-top:10px">
+  <div class="tile"><div class="n">{{ engine.documents }}</div><div class="l">статей</div></div>
+  <div class="tile"><div class="n">{{ engine.concepts }}</div><div class="l">понятий</div></div>
+  <div class="tile"><div class="n">{{ engine.relations }}</div><div class="l">связей</div></div>
+  <div class="tile"><div class="n">{{ engine.index_terms }}</div><div class="l">основ в индексе</div></div>
+  <div class="tile"><div class="n">{{ engine.vocabulary }}</div><div class="l">словоформ в словаре</div></div>
+  <div class="tile"><div class="n">{{ engine.build_ms }} мс</div><div class="l">построение индекса</div></div>
+</div>
+
+<h2>Замер скорости поиска</h2>
+{% if bench %}
+  <p class="muted">Каждый запрос выполнен 20 раз, приведены медиана и максимум.</p>
+  <div class="table-wrap"><table class="grid">
+    <tr><th>Запрос</th><th>Тип</th><th class="num">Слов</th><th class="num">Найдено</th><th class="num">Медиана, мс</th><th class="num">Макс., мс</th><th>Первый результат</th></tr>
+    {% for b in bench %}
+      <tr><td><a href="{{ url_for('search', q=b.q) }}">{{ b.q }}</a></td><td>{{ b.kind }}</td><td class="num">{{ b.words }}</td>
+          <td class="num">{{ b.total }}</td><td class="num">{{ b.median }}</td><td class="num">{{ b.max }}</td><td>{{ b.top }}</td></tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p><a class="btn" href="{{ url_for('stats', bench=1) }}">Запустить замер ({{ 15 }} запросов × 20 повторов)</a></p>
+{% endif %}
+
+<h2>Журнал запросов по типам</h2>
+<p class="muted">Процедура kb.usp_SearchStats.</p>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Тип запроса</th><th class="num">Запросов</th><th class="num">Ср. время, мс</th><th class="num">Макс., мс</th>
+      <th class="num">Ср. результатов</th><th class="num">Пустых</th><th class="num">С исправлением</th></tr>
+  {% for r in s.by_kind %}
+    <tr><td>{{ r.query_kind }}</td><td class="num">{{ r.queries }}</td><td class="num">{{ r.avg_ms }}</td><td class="num">{{ r.max_ms }}</td>
+        <td class="num">{{ r.avg_results }}</td><td class="num">{{ r.empty_results }}</td><td class="num">{{ r.corrected }}</td></tr>
+  {% else %}<tr><td colspan="7" class="muted">Запросов пока не было</td></tr>{% endfor %}
+</table></div>
+
+<div class="two-col" style="grid-template-columns:1fr 1fr">
+  <div>
+    <h3>Популярные запросы</h3>
+    <ol>{% for r in s.popular %}<li><a href="{{ url_for('search', q=r.query_text) }}">{{ r.query_text }}</a> <small>× {{ r.cnt }}</small></li>{% endfor %}</ol>
+    <h3>Запросы без результатов</h3>
+    <p class="muted" style="font-size:13px">Подсказывают, каких знаний не хватает в базе.</p>
+    <ul>{% for r in s.empty %}<li>{{ r.query_text }} <small>× {{ r.cnt }}</small></li>{% else %}<li class="muted">нет</li>{% endfor %}</ul>
+  </div>
+  <div>
+    <h3>Самые просматриваемые статьи</h3>
+    <ol>{% for r in s.top_materials %}<li><a href="{{ url_for('material', mid=r.id_material) }}">{{ r.title }}</a> <small>{{ r.views }}</small></li>{% else %}<li class="muted">нет</li>{% endfor %}</ol>
+  </div>
+</div>
+
+<h3>Последние запросы</h3>
+<div class="table-wrap"><table class="grid">
+  <tr><th>Время</th><th>Запрос</th><th>Тип</th><th class="num">Слов</th><th class="num">Найдено</th><th class="num">мс</th><th>Исправлено на</th></tr>
+  {% for r in s.recent %}
+    <tr><td><small>{{ r.created_at }}</small></td><td>{{ r.query_text }}</td><td>{{ r.query_kind }}</td><td class="num">{{ r.words_count }}</td>
+        <td class="num">{{ r.results_count }}</td><td class="num">{{ r.elapsed_ms }}</td><td>{{ r.corrected or '' }}</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

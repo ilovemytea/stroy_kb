@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Расширение модели</title>
+<style>
+  body { margin: 0; background: #fff; font-family: "Times New Roman", serif; color: #111; }
+  .wrap { width: 1200px; height: 700px; position: relative; }
+  .ent { position: absolute; width: 300px; border: 2px solid #222; background: #fff; font-size: 17px; }
+  .ent h4 { margin: 0; padding: 7px; text-align: center; background: #e6e6ea; border-bottom: 2px solid #222; font-size: 18px; }
+  .ent div { padding: 3px 12px; display: flex; gap: 10px; }
+  .ent div i { width: 30px; font-style: normal; font-size: 13px; color: #555; font-weight: bold; }
+  svg { position: absolute; left: 0; top: 0; }
+  .lbl { font-size: 16px; }
+  .cap { position: absolute; bottom: 8px; width: 100%; text-align: center; font-size: 17px; }
+</style></head>
+<body><div class="wrap">
+<svg width="1200" height="700">
+  <g stroke="#222" stroke-width="2" fill="none">
+    <path d="M450 150 L600 150 L600 300 L750 300"/>
+    <path d="M450 190 L640 190 L640 340 L750 340"/>
+    <path d="M300 245 L300 420"/>
+    <path d="M750 520 L450 520"/>
+  </g>
+  <text class="lbl" x="470" y="140">id_tag_from</text>
+  <text class="lbl" x="470" y="212">id_tag_to</text>
+  <text class="lbl" x="310" y="340">id_tag (заключение)</text>
+  <text class="lbl" x="520" y="510">id_rule</text>
+</svg>
+<div class="ent" style="left:150px;top:60px"><h4>ТЕГ / ПОНЯТИЕ (Tag)</h4>
+  <div><i>PK</i><b>id_tag</b></div><div><i>FK</i>id_category</div><div><i>UK</i>name</div><div><i></i>synonyms</div><div><i></i>definition</div></div>
+<div class="ent" style="left:750px;top:240px"><h4>СВЯЗЬ (Relation)</h4>
+  <div><i>PK</i><b>id_relation</b></div><div><i>FK</i>id_tag_from</div><div><i></i>relation_type</div><div><i>FK</i>id_tag_to</div></div>
+<div class="ent" style="left:150px;top:420px"><h4>ПРАВИЛО (Rule)</h4>
+  <div><i>PK</i><b>id_rule</b></div><div><i>UK</i>code</div><div><i></i>then_kind, then_attribute, then_value</div><div><i>FK</i>id_tag</div><div><i></i>cf, explanation</div></div>
+<div class="ent" style="left:750px;top:450px"><h4>УСЛОВИЕ (RuleCondition)</h4>
+  <div><i>PK</i><b>id_condition</b></div><div><i>FK</i>id_rule</div><div><i></i>attribute, value</div></div>
+<div class="ent" style="left:870px;top:40px;width:280px"><h4>ВОПРОС (Question)</h4>
+  <div><i>PK</i><b>attribute</b></div><div><i></i>question_text, options</div><div><i></i>cond_attribute, cond_values</div></div>
+</div></body></html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "_macros.html" import searchbox with context %}
+{% block topsearch %}{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Строй<span>Мир</span></h1>
+  <p>Интеллектуальная база знаний по строительным материалам: ищите по слову, словосочетанию или вопросу целиком</p>
+  {{ searchbox('', True) }}
+  <div class="examples">
+    {% for kind, q in examples %}
+      <a class="chip" href="{{ url_for('search', q=q) }}"><b>{{ kind }}</b> {{ q }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="tiles">
+  <div class="tile"><div class="n">{{ stats.documents }}</div><div class="l">статей</div></div>
+  <div class="tile"><div class="n">{{ stats.concepts }}</div><div class="l">понятий онтологии</div></div>
+  <div class="tile"><div class="n">{{ stats.relations }}</div><div class="l">семантических связей</div></div>
+  <div class="tile"><div class="n">{{ stats.index_terms }}</div><div class="l">терминов в индексе</div></div>
+  <div class="tile"><div class="n">{{ stats.build_ms }} мс</div><div class="l">построение индекса</div></div>
+</div>
+
+<h2>Разделы базы знаний</h2>
+{% for cat in categories %}
+  <h3 style="margin-bottom:6px">{{ cat.name }}</h3>
+  <div class="examples" style="justify-content:flex-start;margin:0 0 14px">
+    {% for c in concepts if c.category_id == cat.id_category %}
+      <a class="chip tag" href="{{ url_for('concept', cid=c.id) }}">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Обработка запроса</title>
+<style>
+  body { margin: 0; background: #fff; font-family: "Times New Roman", serif; color: #111; }
+  .wrap { width: 1200px; padding: 26px 40px; box-sizing: border-box; }
+  .step { display: grid; grid-template-columns: 54px 330px 1fr; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .n { width: 46px; height: 46px; border-radius: 50%; border: 2px solid #333; display: grid; place-items: center; font-size: 22px; font-weight: bold; }
+  .t { border: 2px solid #333; border-radius: 5px; padding: 10px 12px; font-size: 19px; font-weight: bold; background: #f4f4f4; }
+  .d { font-size: 17px; }
+  .d code { font-family: Consolas, monospace; font-size: 15px; background: #eee; padding: 0 4px; }
+  .down { margin-left: 238px; font-size: 22px; line-height: 1; margin-bottom: 8px; }
+</style></head>
+<body><div class="wrap">
+  <div class="step"><div class="n">1</div><div class="t">Нормализация</div><div class="d">нижний регистр, ё → е, токенизация; обрезка до 15 слов; тип: слово / словосочетание (2–4) / предложение (5–15)</div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">2</div><div class="t">Исправление опечаток</div><div class="d">поиск кандидатов по биграммам, расстояние Дамерау–Левенштейна ≤ 1–2: <code>гипсакартон → гипсокартон</code></div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">3</div><div class="t">Стемминг и стоп-слова</div><div class="d">алгоритм Snowball для русского языка: <code>фундамента → фундамент</code>; удаляются служебные и вопросительные слова</div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">4</div><div class="t">Определение намерения</div><div class="d">шаблоны «чем заменить», «из чего делают», «для чего», «что такое» → тип связи онтологии</div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">5</div><div class="t">Распознавание понятий</div><div class="d">самое длинное совпадение с названиями и синонимами тегов: <code>минвата → «Минеральная вата»</code></div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">6</div><div class="t">Расширение запроса</div><div class="d">синонимы понятия (вес 0,7), его виды по связи «является» (вес 0,35)</div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">7</div><div class="t">Ранжирование</div><div class="d">BM25F по полям (заголовок 3, теги 2, аннотация 1,5, текст 1) × покрытие запроса × близость слов × релевантность тега</div></div>
+  <div class="down">↓</div>
+  <div class="step"><div class="n">8</div><div class="t">Формирование ответа</div><div class="d">быстрый ответ (лучшее предложение), сниппеты с подсветкой, карточка понятия со связями, товары каталога, связанные понятия</div></div>
+</div></body></html>

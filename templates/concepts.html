@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Понятия — СтройМир{% endblock %}
+{% block content %}
+<h1>Понятия онтологии</h1>
+<p class="muted">Каждое понятие — тег базы знаний: у него есть определение, синонимы (используются при поиске) и связи с другими понятиями.</p>
+{% for cat, rows in by_cat.items() %}
+  <h2>{{ cat }} <small>({{ rows|length }})</small></h2>
+  <div class="table-wrap"><table class="grid">
+    <tr><th>Понятие</th><th>Синонимы</th><th class="num">Статей</th><th class="num">Связей</th></tr>
+    {% for r in rows %}
+      <tr><td><a href="{{ url_for('concept', cid=r.id_tag) }}">{{ r.name }}</a></td>
+          <td><small>{{ r.synonyms or '' }}</small></td>
+          <td class="num">{{ r.materials }}</td><td class="num">{{ r.relations }}</td></tr>
+    {% endfor %}
+  </table></div>
+{% endfor %}
+{% endblock %}

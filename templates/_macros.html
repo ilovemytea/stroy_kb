@@ -1,0 +1,11 @@
+{% macro searchbox(value='', autofocus=False) %}
+<div class="searchbox">
+  <form action="{{ url_for('search') }}" method="get" autocomplete="off">
+    <input type="search" name="q" value="{{ value }}" placeholder="Слово, словосочетание или вопрос до {{ MAX_QUERY_WORDS }} слов"
+           aria-label="Поиск по базе знаний" {% if autofocus %}autofocus{% endif %}>
+    <button type="submit">Найти</button>
+  </form>
+  <span class="counter"></span>
+  <ul class="suggest"></ul>
+</div>
+{% endmacro %}

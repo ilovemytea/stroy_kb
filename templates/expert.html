@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Подбор материалов — СтройМир{% endblock %}
+{% block content %}
+<h1>Экспертная система подбора материалов</h1>
+<p class="muted">Ответьте на вопросы — машина вывода применит {{ rules_count }} продукционных правил
+(прямая цепочка рассуждений, коэффициенты уверенности MYCIN) и объяснит результат.
+<a href="{{ url_for('expert_rules') }}">База правил</a></p>
+
+<div class="two-col">
+  <form method="post" class="qform" id="qform">
+    {% for q in questions %}
+      <div class="qrow" data-cond-attr="{{ q.cond_attribute or '' }}" data-cond-values="{{ q.cond_values_list|join('|') }}">
+        <div class="qt">{{ q.question_text }}</div>
+        {% for opt in q.options_list %}
+          <label><input type="radio" name="{{ q.attribute }}" value="{{ opt }}" {{ 'checked' if answers[q.attribute] == opt }}
+                 {{ 'required' if q.attribute == 'element' }}> {{ opt }}</label>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <div><button class="btn" type="submit">Подобрать материалы</button>
+      <a class="btn secondary" href="{{ url_for('expert_view') }}">Сбросить</a></div>
+  </form>
+
+  <aside>
+    {% if result %}
+      <div class="card">
+        <div class="cat">Рекомендуется</div>
+        {% for r in result.recommended %}
+          <div class="rec">
+            <a href="{{ url_for('concept', cid=r.id_tag) }}"><b>{{ r.name }}</b></a>
+            <span class="cf">{{ (r.cf * 100)|round|int }} %</span>
+            <div class="cfbar" style="grid-column:1/-1"><i style="width:{{ (r.cf * 100)|round|int }}%"></i></div>
+            <div class="why">{% for rule in r.rules %}{{ rule.code }}: {{ rule.explanation }} ({{ '%+.2f'|format(rule.cf) }}){{ '; ' if not loop.last }}{% endfor %}</div>
+          </div>
+        {% else %}
+          <p class="muted">Недостаточно данных для уверенной рекомендации.</p>
+        {% endfor %}
+      </div>
+      {% if result.rejected %}
+        <div class="card">
+          <div class="cat">Не рекомендуется</div>
+          {% for r in result.rejected %}
+            <div class="rec bad">
+              <a href="{{ url_for('concept', cid=r.id_tag) }}">{{ r.name }}</a>
+              <span class="cf">{{ (r.cf * 100)|round|int }} %</span>
+              <div class="why">{% for rule in r.rules if rule.cf < 0 %}{{ rule.explanation }}{{ '; ' if not loop.last }}{% endfor %}</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </aside>
+</div>
+
+{% if result %}
+  <h2>Объяснение вывода</h2>
+  <div class="card">
+    <div class="cat">Рабочая память</div>
+    <p>{% for k, v in result.facts.items() %}<span class="chip">{{ labels.get(k, k) }} = <b>{{ v }}</b>{% if k in result.derived %} <small>(выведено)</small>{% endif %}</span> {% endfor %}</p>
+  </div>
+  <div class="table-wrap"><table class="grid trace">
+    <tr><th class="num">Шаг</th><th>Правило</th><th>ЕСЛИ</th><th>ТО</th><th>Результат</th></tr>
+    {% for t in result.trace %}
+      <tr><td class="num">{{ t.step }}</td><td>{{ t.rule.code }}</td>
+          <td>{% for a, v in t.rule.conditions %}{{ a }} = {{ v }}{{ ' И ' if not loop.last }}{% endfor %}</td>
+          <td>{{ t.rule.then_attribute ~ ' = ' ~ t.rule.then_value if t.rule.then_kind == 'fact' else t.rule.tag_name ~ ' (CF ' ~ t.rule.cf ~ ')' }}</td>
+          <td>{{ t.result }}</td></tr>
+    {% endfor %}
+  </table></div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+// Условные вопросы: показываем только относящиеся к выбранному варианту.
+(function () {
+  const form = document.getElementById("qform");
+  function update() {
+    form.querySelectorAll(".qrow").forEach(row => {
+      const attr = row.dataset.condAttr;
+      if (!attr) return;
+      const sel = form.querySelector(`input[name="${attr}"]:checked`);
+      const ok = sel && row.dataset.condValues.split("|").includes(sel.value);
+      row.classList.toggle("hidden", !ok);
+    });
+  }
+  form.addEventListener("change", update);
+  update();
+})();
+</script>
+{% endblock %}
