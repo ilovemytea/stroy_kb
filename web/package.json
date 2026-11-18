@@ -1,0 +1,1 @@
+{"name":"dusovstroimir","private":true,"type":"module","scripts":{"test":"node tests/parity.mjs"}}
