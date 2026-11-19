@@ -86,6 +86,15 @@ def home():
                            concepts=sorted(ix.concepts.values(), key=lambda c: c["name"]))
 
 
+@app.route("/guides")
+def guides():
+    from data import knowledge as K
+    from data.enrichment import guide_for
+    known = {a[0]:guide_for(a) for a in K.ARTICLES}
+    articles=[dict(d,guide=known.get(d['title'])) for d in get_index().docs.values()]
+    return render_template('guides.html',articles=sorted(articles,key=lambda d:d['id'],reverse=True))
+
+
 @app.route("/search")
 def search():
     q = request.args.get("q", "").strip()

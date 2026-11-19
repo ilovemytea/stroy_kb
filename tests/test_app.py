@@ -66,3 +66,15 @@ def test_admin_create_search_delete(client):
     gone = client.get("/api/search", query_string={"q": "фибробетон"}).get_json()
     assert all(x["title"] != title for x in gone["results"])
     db.execute("DELETE FROM kb.SearchLog WHERE query_text = N'фибробетон'")
+
+
+def test_practical_guide_pages(client):
+    response=client.get('/guides')
+    text=response.get_data(as_text=True)
+    assert response.status_code==200
+    assert 'Гидроизоляция ванной' in text and 'data-local-card' in text
+    article=client.get('/material/10')
+    text=article.get_data(as_text=True)
+    assert article.status_code==200
+    assert 'Посмотрите на схему' in text and 'data-local-save' in text
+    assert 'data-local-video' in text and '/static/media/drywall.jpg' in text

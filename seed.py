@@ -5,6 +5,8 @@
     py seed.py --deploy     — сгенерировать и выполнить скрипты 01–03 через sqlcmd
 """
 import argparse
+import json
+from data.enrichment import guide_for
 import subprocess
 import sys
 from pathlib import Path
@@ -107,6 +109,9 @@ def generate():
                      + f") AS v(a, v) WHERE r.code = '{code}';")
     parts.append("GO\n")
 
+    for article in K.ARTICLES:
+        encoded=json.dumps(guide_for(article),ensure_ascii=False)
+        parts.append("INSERT kb.ArticleGuide(id_material,guide_json) SELECT id_material,"+q(encoded)+" FROM kb.Material WHERE title="+q(article[0])+";\nGO\n")
     parts.append("EXEC kb.usp_RecalcRanks;\nGO\n")
     parts.append(
         "/* Контроль наполнения */\n"

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Практические инструкции — ctroimir{% endblock %}
+{% block content %}
+<h1>Практические инструкции</h1><p>Схемы, пошаговые объяснения и видео. Сохраняйте материалы, чтобы вернуться к ним во время ремонта.</p>
+<div class="page-actions"><button class="btn secondary" data-local-filter="all">Все статьи</button><button class="btn secondary" data-local-filter="saved">Избранное</button><button class="btn secondary" data-local-filter="read">Недавно прочитанное</button></div>
+<p class="muted">Избранное и история сохраняются только в этом браузере. Между устройствами записи не переносятся.</p>
+<p id="local-library-empty" hidden>В этом списке пока пусто. Откройте статью и сохраните её в избранное.</p>
+<div class="article-list">{% for d in articles %}<article class="article-card" data-local-card="{{ d.id }}">{% if d.guide %}<img class="card-cover" src="{{ url_for('static',filename='media/'+d.guide.image.file) }}" alt="{{ d.guide.image.alt }}" width="900" height="480" loading="lazy">{% endif %}<small>{{ d.type }}{% if d.guide %} · {{ d.guide.minutes }} мин{% endif %}</small><h2><a href="{{ url_for('material',mid=d.id) }}">{{ d.title }}</a></h2><p>{{ d.summary }}</p></article>{% endfor %}</div>
+{% endblock %}

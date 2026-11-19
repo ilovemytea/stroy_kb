@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    КУРСОВОЙ ПРОЕКТ
    Тема: «Проектирование базы знаний по строительным материалам»
    Информационно-поисковый портал «СтройМир»
@@ -37,6 +37,7 @@ IF SCHEMA_ID(N'kb') IS NULL
 GO
 
 /* Очистка при повторном запуске: дочерние таблицы раньше родительских */
+DROP TABLE IF EXISTS kb.ArticleGuide;
 DROP TABLE IF EXISTS kb.SearchLog;
 DROP TABLE IF EXISTS kb.RuleCondition;
 DROP TABLE IF EXISTS kb.[Rule];
@@ -357,4 +358,13 @@ CREATE INDEX IX_Relation_to        ON kb.Relation(id_tag_to, relation_type);
 CREATE INDEX IX_RuleCondition_rule ON kb.RuleCondition(id_rule);
 CREATE INDEX IX_SearchLog_created  ON kb.SearchLog(created_at);
 CREATE INDEX IX_SearchLog_query    ON kb.SearchLog(query_text);
+GO
+
+IF OBJECT_ID(N'kb.ArticleGuide',N'U') IS NULL
+CREATE TABLE kb.ArticleGuide (
+    id_material INT NOT NULL PRIMARY KEY,
+    guide_json NVARCHAR(MAX) NOT NULL CHECK(ISJSON(guide_json)=1),
+    CONSTRAINT FK_ArticleGuide_Material FOREIGN KEY(id_material)
+        REFERENCES kb.Material(id_material) ON DELETE CASCADE
+);
 GO

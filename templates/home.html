@@ -21,6 +21,7 @@
   <div class="tile"><div class="n">{{ stats.build_ms }} мс</div><div class="l">построение индекса</div></div>
 </div>
 
+<section class="return-banner"><div><h2>Ремонт понятными шагами</h2><p>Новые статьи со схемами, фото, видео и проверками перед работой.</p></div><a class="btn" href="{{ url_for('guides') }}">Выбрать инструкцию</a></section>
 <h2>Разделы базы знаний</h2>
 {% for cat in categories %}
   <h3 style="margin-bottom:6px">{{ cat.name }}</h3>

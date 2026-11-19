@@ -1,0 +1,155 @@
+{
+  "photos": {
+    "blocks.jpg": {
+      "file": "wall.svg",
+      "alt": "Учебная схема кладки из блоков",
+      "author": "Редакция ctroimir",
+      "license": "Авторская учебная схема",
+      "license_url": "http://dusovstroimir.mooo.com/about/",
+      "source": "http://dusovstroimir.mooo.com/about/"
+    },
+    "bricks.jpg": {
+      "file": "bricks.jpg",
+      "alt": "Кирпичная кладка",
+      "author": "Laura Tancredi",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "source": "https://www.pexels.com/photo/wall-made-of-rows-of-bricks-7078629/",
+      "download": "https://images.pexels.com/photos/7078629/pexels-photo-7078629.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    "wool.jpg": {
+      "file": "wool.jpg",
+      "alt": "Монтаж волокнистого утеплителя",
+      "author": "Erik Mclean",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "source": "https://www.pexels.com/photo/unrecognizable-worker-insulating-with-stone-wool-6124239/",
+      "download": "https://images.pexels.com/photos/6124239/pexels-photo-6124239.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    "drywall.jpg": {
+      "file": "drywall.jpg",
+      "alt": "Листы гипсокартона на складе",
+      "author": "Pablo Fernandez",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "source": "https://www.pexels.com/photo/drywall-plasterboard-wallboard-27728636/",
+      "download": "https://images.pexels.com/photos/27728636/pexels-photo-27728636.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    "osb.jpg": {
+      "file": "osb.jpg",
+      "alt": "Структура ориентированно-стружечной плиты OSB",
+      "author": "Engin Akyurt",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "source": "https://www.pexels.com/photo/rough-surface-of-a-wooden-board-9756487/",
+      "download": "https://images.pexels.com/photos/9756487/pexels-photo-9756487.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    "roof.jpg": {
+      "file": "roof.jpg",
+      "alt": "Монтаж керамической кровельной черепицы",
+      "author": "Clément Proust",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "source": "https://www.pexels.com/photo/installation-of-red-clay-roof-tiles-on-new-building-31771167/",
+      "download": "https://images.pexels.com/photos/31771167/pexels-photo-31771167.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    "foundation.svg": {
+      "file": "foundation.svg",
+      "alt": "Схема защиты подземной части от воды",
+      "author": "Редакция ctroimir",
+      "license": "Авторская учебная схема",
+      "source": "http://dusovstroimir.mooo.com/about/",
+      "license_url": "http://dusovstroimir.mooo.com/about/"
+    },
+    "finish.svg": {
+      "file": "finish.svg",
+      "alt": "Слои облицовки в мокрой зоне",
+      "author": "Редакция ctroimir",
+      "license": "Авторская учебная схема",
+      "source": "http://dusovstroimir.mooo.com/about/",
+      "license_url": "http://dusovstroimir.mooo.com/about/"
+    },
+    "paving.svg": {
+      "file": "paving.svg",
+      "alt": "Слои основания садовой дорожки",
+      "author": "Редакция ctroimir",
+      "license": "Авторская учебная схема",
+      "source": "http://dusovstroimir.mooo.com/about/",
+      "license_url": "http://dusovstroimir.mooo.com/about/"
+    }
+  },
+  "videos": {
+    "knauf112": {
+      "title": "Монтаж перегородки КНАУФ С112",
+      "author": "КНАУФ",
+      "provider": "YouTube",
+      "youtube_id": "APIEl1KPBQU",
+      "url": "https://www.youtube.com/watch?v=APIEl1KPBQU",
+      "source": "https://www.knauf.ru/"
+    },
+    "knauf-single": {
+      "title": "Перегородка с однослойной обшивкой",
+      "author": "КНАУФ",
+      "provider": "YouTube",
+      "youtube_id": "jFzgCJfkPuk",
+      "url": "https://www.youtube.com/watch?v=jFzgCJfkPuk",
+      "source": "https://www.knauf.ru/"
+    },
+    "facade": {
+      "title": "Утепление фасада: Дом за год",
+      "author": "ТЕХНОНИКОЛЬ",
+      "provider": "YouTube",
+      "youtube_id": "n_MstVbMNA0",
+      "url": "https://www.youtube.com/watch?v=n_MstVbMNA0",
+      "source": "https://www.tn.ru/"
+    },
+    "roof": {
+      "title": "Теплоизоляция крыши: каменная вата и PIR",
+      "author": "ТЕХНОНИКОЛЬ",
+      "provider": "YouTube",
+      "youtube_id": "OcIOrGdhFG0",
+      "url": "https://www.youtube.com/watch?v=OcIOrGdhFG0",
+      "source": "https://www.tn.ru/"
+    },
+    "waterproof": {
+      "title": "Гидроизоляция под плиткой",
+      "author": "Ceresit Беларусь",
+      "provider": "YouTube",
+      "youtube_id": "JwEucXTm9H0",
+      "url": "https://www.youtube.com/watch?v=JwEucXTm9H0",
+      "source": "https://www.ceresit.by/service/how-to/how-to-make-waterproofing.html"
+    },
+    "tile": {
+      "title": "Укладка плитки из натурального камня",
+      "author": "Ceresit Беларусь",
+      "provider": "YouTube",
+      "youtube_id": "Q-apGS9Gm2A",
+      "url": "https://www.youtube.com/watch?v=Q-apGS9Gm2A",
+      "source": "https://www.ceresit.by/service/how-to/natural-stone-tiles-how-to-lay.html"
+    },
+    "prime": {
+      "title": "Грунтование основания",
+      "author": "Ceresit Беларусь",
+      "provider": "YouTube",
+      "youtube_id": "MlNJPxrzLdo",
+      "url": "https://www.youtube.com/watch?v=MlNJPxrzLdo",
+      "source": "https://www.ceresit.by/service/how-to/how-to-prime.html"
+    },
+    "grout": {
+      "title": "Заполнение швов плитки",
+      "author": "Ceresit Беларусь",
+      "provider": "YouTube",
+      "youtube_id": "uHf18LaVJv8",
+      "url": "https://www.youtube.com/watch?v=uHf18LaVJv8",
+      "source": "https://www.ceresit.by/service/how-to/natural-stone-tiles-how-to-grout.html"
+    },
+    "foundation": {
+      "title": "Гидроизоляция фундамента частного дома",
+      "author": "ТЕХНОНИКОЛЬ",
+      "provider": "Rutube",
+      "url": "https://rutube.ru/video/35e9cd2db5a2af87a4d31857d52aa6fd/",
+      "source": "https://rutube.ru/video/35e9cd2db5a2af87a4d31857d52aa6fd/"
+    }
+  },
+  "checked": "2026-11-19"
+}

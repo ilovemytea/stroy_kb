@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ m.title }} — СтройМир{% endblock %}
 {% block content %}
+<div class="page-actions"><button class="btn secondary" data-local-save="{{ m.id_material }}" aria-pressed="false">Сохранить статью</button><a class="btn secondary" href="{{ url_for('guides',saved=1) }}">Мои материалы</a></div>
 <div class="two-col">
   <article class="material">
     <div class="meta">
@@ -9,12 +10,14 @@
     </div>
     <h1>{{ m.title }}</h1>
     {% if m.summary %}<p class="lead">{{ m.summary }}</p>{% endif %}
+    {% include "guide_local.html" %}
     {% if body_html %}
       {% for p in body_html %}<p>{{ p|safe }}</p>{% endfor %}
     {% else %}
       {% for p in m.body.split('\n') if p.strip() %}<p>{{ p }}</p>{% endfor %}
     {% endif %}
-    {% if m.video_url %}
+    {% include "guide_local_details.html" %}
+    {% if m.video_url and not m.guide %}
       <p><a class="btn secondary" href="{{ m.video_url }}" target="_blank" rel="noopener">▶ Видео по теме ({{ m.video_platform }}{% if m.duration_sec %}, {{ m.duration_sec|duration }}{% endif %})</a></p>
     {% endif %}
   </article>

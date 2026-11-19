@@ -2,6 +2,7 @@
 from contextlib import contextmanager
 
 import pyodbc
+import json
 
 import config
 
@@ -122,6 +123,13 @@ def open_material(id_material):
             FROM kb.MaterialTag mt JOIN kb.Tag t ON t.id_tag = mt.id_tag
             WHERE mt.id_material = ? ORDER BY mt.relevance DESC""", id_material)
         m["tags"] = _rows(cur)
+        cur.execute("SELECT OBJECT_ID(N'kb.ArticleGuide',N'U')")
+        has_guides=cur.fetchone()[0] is not None
+        guide_row=None
+        if has_guides:
+            cur.execute("SELECT guide_json FROM kb.ArticleGuide WHERE id_material=?",id_material)
+            guide_row=cur.fetchone()
+        m["guide"] = json.loads(guide_row[0]) if guide_row and guide_row[0] else None
     return m
 
 

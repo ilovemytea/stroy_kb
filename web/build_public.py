@@ -56,6 +56,7 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
     from search.text import STOPWORDS, QUESTION_WORDS, stem
     from search import stemmer
     from expert import infer
+    from data.enrichment import guide_for, collections
 
     categories = [{"id": i, "name": n, "description": d}
                   for i, (n, d) in enumerate(K.CATEGORIES, 1)]
@@ -72,6 +73,8 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
              "tags": [{"id": concept_ids[t], "name": t, "relevance": r} for t, r in tags],
              "video": video}
             for i, (title, typ, pub, country, date, tags, summary, body, video) in enumerate(K.ARTICLES, 1)]
+    for doc,article in zip(docs,K.ARTICLES):
+        doc["guide"] = guide_for(article)
     products = catalog(source)
     ix = KnowledgeIndex(docs, concepts, relations, products)
     questions = [{"attribute": a, "question_text": q, "options_list": opts,
@@ -86,7 +89,7 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
              for code, conditions, then, cf, explanation in K.RULES]
     payload = {
         "documents": docs, "concepts": concepts, "relations": relations, "products": products,
-        "categories": categories, "types": [{"id": i, "name": n} for n, i in type_ids.items()],
+        "collections": collections(K.ARTICLES), "categories": categories, "types": [{"id": i, "name": n} for n, i in type_ids.items()],
         "questions": questions, "rules": rules, "labels": RELATION_LABELS,
         "postings": ix.postings, "positions": ix.positions, "field_len": ix.field_len,
         "avg_len": ix.avg_len, "idf": ix.idf, "vocabulary": ix.speller.freq,
@@ -107,6 +110,7 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
     for item in (HERE / "src").iterdir():
         if item.is_file():
             shutil.copy2(item, dist / item.name)
+    shutil.copytree(source / "static/media", dist / "media", dirs_exist_ok=True)
     (dist / "knowledge.json").write_text(encoded, encoding="utf-8")
     sw = dist / "sw.js"
     sw.write_text(sw.read_text(encoding="utf-8").replace("__BUILD__", version), encoding="utf-8")

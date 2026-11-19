@@ -1,0 +1,5 @@
+{% if m.guide %}
+{% set g=m.guide %}
+{% if g.image.file != g.diagram.file %}<figure class="article-photo"><img class="reader-cover" src="{{ url_for('static',filename='media/'+g.image.file) }}" alt="{{ g.image.alt }}" width="900" height="480"><figcaption class="media-credit">{{ g.image.alt }} · {{ g.image.author }} · <a href="{{ g.image.source }}" target="_blank" rel="noopener">Источник</a> · <a href="{{ g.image.license_url }}" target="_blank" rel="noopener">{{ g.image.license }}</a></figcaption></figure>{% endif %}
+<section class="reader-summary"><p class="eyebrow">Главное за минуту · {{ g.minutes }} мин чтения</p><h2>Что нужно понять</h2><ul>{% for item in g.takeaways %}<li>{{ item }}</li>{% endfor %}</ul></section>
+{% endif %}

@@ -1170,3 +1170,12 @@ RULES = [
     ("R123", [("element", "Садовая дорожка"), ("budget", "Премиум")], ("tag", "Керамогранит"), 0.4,
      "Уличный керамогранит толщиной 20 мм"),
 ]
+
+# Practical expansion 2026-11: append without changing existing public IDs.
+from data import extra_knowledge as _extra
+_known_names = {c[0] for c in CONCEPTS}
+CONCEPTS.extend(c for c in _extra.CONCEPTS if c[0] not in _known_names)
+RELATIONS.extend(r for r in _extra.RELATIONS if r not in RELATIONS)
+ARTICLES.extend(_extra.ARTICLES)
+# Search-result URLs are not individual videos and have no reliable duration.
+ARTICLES = [a[:-1] + (None,) if a[-1] and '/results?' in a[-1][1] else a for a in ARTICLES]

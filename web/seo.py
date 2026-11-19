@@ -25,8 +25,26 @@ def render_static_site(dist: Path, data: dict, site_url: str):
     def title(text, description=''):
         return f'<div class="page-head"><h1>{esc(text)}</h1><p>{esc(description)}</p></div>'
 
+    def picture(d):
+        g=d.get('guide')
+        if not g: return ''
+        image=g['image']
+        return f'<img class="card-cover" src="./media/{esc(image["file"])}" alt="{esc(image["alt"])}" width="900" height="480" loading="lazy">'
+
+    def rich_guide(d):
+        g=d.get('guide')
+        if not g: return ''
+        result='<section class="reader-summary"><h2>Главное за минуту</h2><ul>'+''.join('<li>'+esc(x)+'</li>' for x in g['takeaways'])+'</ul></section>'
+        result+=f'<figure class="diagram"><img src="./media/{esc(g["diagram"]["file"])}" alt="{esc(g["diagram"]["alt"])}" width="900" height="455" loading="lazy"><figcaption>{esc(g["diagram"]["caption"])}</figcaption></figure>'
+        result+='<h2>Проверить перед работой</h2><ol>'+''.join('<li>'+esc(x)+'</li>' for x in g['steps'])+'</ol><h2>Частые ошибки</h2><ul>'+''.join('<li>'+esc(x)+'</li>' for x in g['mistakes'])+'</ul>'
+        if g['videos']:
+            result+='<h2>Видео по теме</h2><ul>'+''.join(f'<li><a href="{esc(v["url"])}" target="_blank" rel="noopener">{esc(v["title"])}</a> · {esc(v["author"])}</li>' for v in g['videos'])+'</ul>'
+        image=g['image']
+        result+=f'<details class="source-list"><summary>Источники и изображения</summary><p>{esc(image["alt"])} · {esc(image["author"])} · <a href="{esc(image["source"])}">Источник изображения</a> · <a href="{esc(image["license_url"])}">{esc(image["license"])}</a></p><ul>'+''.join(f'<li><a href="{esc(u)}">{esc(u)}</a></li>' for u in g['sources'])+'</ul></details>'
+        return result
+
     def article_card(d):
-        return f'<article class="article-card"><small>{esc(d["type"])}</small><h3>{link("material/"+str(d["id"]),d["title"])}</h3><p>{esc(d["summary"])}</p></article>'
+        return f'<article class="article-card">{picture(d)}<small>{esc(d["type"])}</small><h3>{link("material/"+str(d["id"]),d["title"])}</h3><p>{esc(d["summary"])}</p></article>'
 
     def concept_chips(cs):
         return '<div class="examples">'+''.join(link('concept/'+str(c['id']),c['name'],'chip tag') for c in cs)+'</div>'
@@ -38,15 +56,19 @@ def render_static_site(dist: Path, data: dict, site_url: str):
         Состав, свойства, применение и объяснимый подбор материалов для строительства.</p>'''
     home += f'<div class="quick-links">{link("search","Найти материал","btn")}{link("expert","Подобрать материал","btn secondary")}</div></section>'
     home += '<div class="tiles">'+''.join(f'<div class="tile"><div class="n">{n}</div><div class="l">{label}</div></div>' for n,label in [(len(data['documents']),'статей'),(len(concepts),'понятий'),(len(data['relations']),'связей'),(len(data['rules']),'правил')])+'</div>'
+    home += '<h2>Выберите задачу</h2><div class="examples">'+''.join(link('guides',c['name'],'chip') for c in data.get('collections',[]))+'</div>'
     home += '<h2>Статьи о строительных материалах</h2><div class="article-list">'+''.join(article_card(d) for d in data['documents'])+'</div>'
     home += '<h2>Понятия и определения</h2>'+concept_chips(data['concepts'])
     pages[''] = ('ctroimir — СтройМир Дусова, база знаний по строительным материалам',
-                 'ctroimir — база знаний Дусова А.Э.: строительные материалы, 37 статей, поиск, онтология и экспертный подбор с объяснениями.', home,
+                 'ctroimir — база знаний Дусова А.Э.: строительные материалы, практические статьи, поиск, онтология и экспертный подбор с объяснениями.', home,
                  {'@context':'https://schema.org','@type':'WebSite','name':'ctroimir','alternateName':'СтройМир Дусова','url':site_url,'inLanguage':'ru'})
     for d in data['documents']:
         path = 'material/'+str(d['id'])
         content = f'<div class="page-actions">{link("","Главная","btn secondary")}{link("concepts","Понятия базы знаний","btn secondary")}</div><article class="material"><div class="meta">{esc(d["type"])} · {esc(d["publisher"])}</div><h1>{esc(d["title"])}</h1><p class="lead">{esc(d["summary"])}</p>'
+        if d["guide"]["image"]["file"] != d["guide"]["diagram"]["file"]:
+            content += picture(d)
         content += ''.join('<p>'+esc(p)+'</p>' for p in d['body'].splitlines() if p.strip())
+        content += rich_guide(d)
         content += '</article><h2>Понятия статьи</h2>'+concept_chips([concepts[t['id']] for t in d['tags']])
         related = [other for other in data['documents'] if other['id'] != d['id'] and {t['id'] for t in d['tags']} & {t['id'] for t in other['tags']}][:4]
         if related:
@@ -76,7 +98,7 @@ def render_static_site(dist: Path, data: dict, site_url: str):
     content = title('Понятия базы знаний','Строительные материалы, свойства, нормативы и технологии.')
     for cat in data['categories']:
         content += '<h2>'+esc(cat['name'])+'</h2>'+concept_chips([c for c in concepts.values() if c['category_id'] == cat['id']])
-    pages['concepts'] = ('Понятия строительных материалов — ctroimir','95 понятий с определениями, синонимами и семантическими связями.',content,None)
+    pages['concepts'] = ('Понятия строительных материалов — ctroimir','Понятия с определениями, синонимами и семантическими связями.',content,None)
     content = title('О проекте ctroimir')+'<div class="prose"><p>Курсовой проект Дусова А.Э. «Проектирование базы знаний по строительным материалам».</p><p>Сайт ctroimir объединяет статьи, онтологию и экспертную систему с объяснением рекомендаций. Поиск учитывает словоформы, синонимы и опечатки.</p><h2>Разделы проекта</h2><ul>'
     for path,label in [('concepts','Понятия'),('expert','Подбор материалов'),('graph','Граф онтологии'),('catalog','Каталог'),('rules','Экспертные правила')]:
         content += '<li>'+link(path,label)+'</li>'
@@ -93,16 +115,29 @@ def render_static_site(dist: Path, data: dict, site_url: str):
     content += '</ul>'
     pages['rules'] = ('Экспертные правила подбора материалов — ctroimir','84 продукционных правила: условия, рекомендации и объяснение выбора строительных материалов.',content,None)
     pages['expert'] = ('Подбор строительных материалов — ctroimir','Экспертный подбор материалов для стен, фундамента, кровли, утепления и отделки.',title('Подбор строительных материалов')+'<p>Включите JavaScript, чтобы ответить на вопросы и получить рекомендации с объяснениями.</p>'+link('rules','Посмотреть правила подбора'),None)
-    pages['graph'] = ('Онтология строительных материалов — ctroimir','Семантическая сеть: 95 понятий и 191 связь строительных материалов, свойств и технологий.',title('Онтология строительных материалов')+concept_chips(data['concepts']),None)
+    pages['graph'] = ('Онтология строительных материалов — ctroimir','Семантическая сеть: Понятия и семантические связи строительных материалов, свойств и технологий.',title('Онтология строительных материалов')+concept_chips(data['concepts']),None)
     pages['search'] = ('Поиск по строительным материалам — ctroimir','Поиск по базе знаний с учётом словоформ, синонимов и опечаток.',title('Поиск по базе знаний')+'<p>Включите JavaScript для интеллектуального поиска.</p>',None)
     pages['stats'] = ('Исследование базы знаний — ctroimir','Измерение скорости поиска на устройстве посетителя.',title('Исследование базы знаний'),None)
+
+    content=title('Практические инструкции','Стены, утепление, кровля, ванная и участок. Выберите статью под свою задачу.')
+    for collection in data.get('collections',[]):
+        content+='<h2>'+esc(collection['name'])+'</h2><div class="article-list">'+''.join(article_card(d) for d in data['documents'] if d['id'] in collection['articles'])+'</div>'
+    pages['guides']=('Практические инструкции — ctroimir','Пошаговые материалы, схемы, частые ошибки и видео по строительству и ремонту.',content,None)
+    seen=set(); content=title('Видеотека','Уроки производителей со ссылками на текстовые инструкции.')+'<ul>'
+    for d in data['documents']:
+        for v in d.get('guide',{}).get('videos',[]):
+            if v['url'] in seen: continue
+            seen.add(v['url'])
+            content+=f'<li><a href="{esc(v["url"])}">{esc(v["title"])}</a> · {esc(v["author"])} · '+link('material/'+str(d['id']),'Статья по теме')+'</li>'
+    pages['videos']=('Видеотека — ctroimir','Наглядные уроки КНАУФ, ТЕХНОНИКОЛЬ и Ceresit.',content+'</ul>',None)
+    pages['library']=('Мои материалы — ctroimir','Ваши избранные и недавно прочитанные материалы.',title('Мои материалы')+'<p>Для избранного и истории чтения включите JavaScript. Записи хранятся только в вашем браузере.</p>',None)
 
     template = (dist/'index.html').read_text(encoding='utf-8')
     for path,(page_title,description,content,structured) in pages.items():
         canonical = url(path)
         page = re.sub(r'<title>.*?</title>', '<title>'+esc(page_title)+'</title>', template, flags=re.S)
         page = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="'+esc(description)+'">',page)
-        robots = 'noindex,follow' if path in {'search','stats'} else 'index,follow,max-image-preview:large'
+        robots = 'noindex,follow' if path in {'search','stats','library'} else 'index,follow,max-image-preview:large'
         meta = f'<meta name="site-root" content="{esc(site_url)}">\n<link rel="canonical" href="{esc(canonical)}">\n<meta name="robots" content="{robots}">\n<meta property="og:title" content="{esc(page_title)}">\n<meta property="og:description" content="{esc(description)}">\n<meta property="og:url" content="{esc(canonical)}">\n<meta property="og:site_name" content="ctroimir">\n<meta property="og:type" content="{"article" if path.startswith("material/") else "website"}">'
         if structured:
             meta += '<script type="application/ld+json">'+json.dumps(structured,ensure_ascii=False).replace('<','\\u003c')+'</script>'
@@ -119,12 +154,12 @@ def render_static_site(dist: Path, data: dict, site_url: str):
     ET.register_namespace('',namespace)
     root = ET.Element('{'+namespace+'}urlset')
     for path in pages:
-        if path not in {'search','stats'}:
+        if path not in {'search','stats','library'}:
             item = ET.SubElement(root,'{'+namespace+'}url')
             ET.SubElement(item,'{'+namespace+'}loc').text = url(path)
     ET.ElementTree(root).write(dist/'sitemap.xml',encoding='utf-8',xml_declaration=True)
     # On a project site robots.txt is at the project path; the root account's
     # robots policy also applies. Sitemap submission uses the absolute URL.
     (dist/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+site_url+'sitemap.xml\n',encoding='utf-8')
-    print(f'SEO: {len(pages)} HTML pages; {len(pages)-2} sitemap URLs; canonical base {site_url}')
+    print(f'SEO: {len(pages)} HTML pages; {len(pages)-3} sitemap URLs; canonical base {site_url}')
     return len(pages)
