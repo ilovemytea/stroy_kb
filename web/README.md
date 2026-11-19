@@ -34,4 +34,4 @@ py -m http.server 5173 --directory dist
 
 После первого полного посещения service worker кеширует весь сайт для повторного открытия без сети. Смена данных или файлов интерфейса обновляет версию кеша. Для офлайн-режима нужен HTTPS либо localhost и браузер с поддержкой service worker.
 
-SEO-проверка: `py web/tests/test_seo.py` из корня проекта. Отправка опубликованных URL в IndexNow: `py web/submit_indexnow.py`. Основной адрес: https://ilovemytea.github.io/stroy_kb/ .
+SEO-проверка: `py web/tests/test_seo.py` из корня проекта. Отправка опубликованных URL в IndexNow: `py web/submit_indexnow.py`. Основной адрес: http://dusovstroimir.mooo.com/ .

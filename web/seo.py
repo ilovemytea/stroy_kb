@@ -10,8 +10,8 @@ import xml.etree.ElementTree as ET
 def render_static_site(dist: Path, data: dict, site_url: str):
     site_url = site_url.rstrip('/') + '/'
     parsed = urlsplit(site_url)
-    if parsed.scheme != 'https' or not parsed.netloc or parsed.query or parsed.fragment:
-        raise ValueError('Public site URL must be an absolute HTTPS URL without query or fragment')
+    if parsed.scheme not in {'http', 'https'} or not parsed.netloc or parsed.query or parsed.fragment:
+        raise ValueError('Public site URL must be an absolute HTTP(S) URL without query or fragment')
     prefix = parsed.path
     esc = lambda value: html.escape(str(value), quote=True)
     concepts = {c['id']: c for c in data['concepts']}

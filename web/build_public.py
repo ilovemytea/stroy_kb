@@ -49,7 +49,7 @@ def catalog(source):
     return [dict(r) for r in rows]
 
 
-def build(source, site_url='https://ilovemytea.github.io/stroy_kb/'):
+def build(source, site_url='http://dusovstroimir.mooo.com/'):
     sys.path.insert(0, str(source))
     from data import knowledge as K
     from search.engine import KnowledgeIndex, INTENTS, INTENT_TRIGGER_STEMS, RELATION_LABELS
@@ -142,6 +142,6 @@ def build(source, site_url='https://ilovemytea.github.io/stroy_kb/'):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, default=HERE.parent)
-    parser.add_argument("--site-url", default='https://ilovemytea.github.io/stroy_kb/')
+    parser.add_argument("--site-url", default='http://dusovstroimir.mooo.com/')
     args = parser.parse_args()
     build(args.source.resolve(), args.site_url)

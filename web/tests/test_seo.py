@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / 'dist'
-BASE = 'https://ilovemytea.github.io/stroy_kb/'
+BASE = 'http://dusovstroimir.mooo.com/'
 
 
 class Page(HTMLParser):

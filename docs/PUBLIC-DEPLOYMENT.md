@@ -2,8 +2,8 @@
 
 Сайт для защиты 25 ноября 2026 года:
 
-- Основной адрес: https://ilovemytea.github.io/stroy_kb/
-- Карта сайта: https://ilovemytea.github.io/stroy_kb/sitemap.xml
+- Основной адрес: http://dusovstroimir.mooo.com/
+- Карта сайта: http://dusovstroimir.mooo.com/sitemap.xml
 - Репозиторий опубликованного HTTPS-сайта: https://github.com/ilovemytea/stroy_kb
 - Исходный код: https://github.com/ilovemytea/stroy_kb
 
@@ -70,7 +70,7 @@ py web/submit_indexnow.py
 
 Скрипт предварительно проверяет опубликованный файл подтверждения, затем отправляет 139 URL. HTTP 200/202 означает приём уведомления, а не гарантированную индексацию. Проверочный файл по протоколу публикуется открыто и не является паролем аккаунта. Не отправляйте одни и те же страницы многократно без изменений.
 
-Для Google можно добавить ресурс с префиксом https://ilovemytea.github.io/stroy_kb/ в Google Search Console, подтвердить его HTML-файлом или метатегом и отправить sitemap.xml. Нужна авторизация владельца в Google. Для проверки появления сайта используйте запрос dusovstroimir или site:ilovemytea.github.io/dusovstroimir/.
+Для Google можно добавить ресурс с префиксом http://dusovstroimir.mooo.com/ в Google Search Console, подтвердить его HTML-файлом или метатегом и отправить sitemap.xml. Нужна авторизация владельца в Google. Для проверки появления сайта используйте запрос dusovstroimir или site:dusovstroimir.mooo.com.
 
 Публикация копий исходников:
 
@@ -79,3 +79,6 @@ git push origin main
 ```
 
 Внешние ограничения FreeDNS не позволили включить CNAME или TXT-подтверждение для mooo.com, поэтому основным выбран HTTPS-адрес GitHub Pages. Для демонстрации используйте основной адрес выше.
+
+
+Проверка 19 ноября 2026: mooo.com доступен по HTTP; HTTPS-сертификат не выпущен. Резервный HTTPS-адрес: https://dusovstroimir.woodyebony32.chatgpt.site/ . Локальный Flask требует запущенной службы MSSQLSERVER; запуск службы в PowerShell администратора: Start-Service MSSQLSERVER.

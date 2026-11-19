@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://ilovemytea.github.io/stroy_kb/sitemap.xml
+Sitemap: http://dusovstroimir.mooo.com/sitemap.xml
