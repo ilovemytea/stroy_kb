@@ -12,6 +12,13 @@ import pyodbc
 from flask import (Flask, abort, flash, jsonify, redirect, render_template, request, session,
                    url_for)
 
+# PyCharm's Run button starts this file as __main__; use private local settings.
+if __name__ == '__main__':
+    from local_setup import configure_local
+    _local_settings_path = configure_local()
+    if _local_settings_path:
+        print('Локальные настройки: ' + _local_settings_path.name + ' (не публикуются в Git).')
+
 import config
 import db
 import expert
