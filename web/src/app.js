@@ -199,10 +199,11 @@ function render(){
   document.getElementById('clear-history')?.addEventListener('click',()=>{storage.set('recent',[]);render();});
   main.addEventListener('click',async e=>{if(e.target.id==='share-page'){try{await navigator.clipboard.writeText(location.href);toast('Ссылка скопирована');}catch{toast('Скопируйте адрес из строки браузера');}}},{signal:routeAbort.signal});
   window.scrollTo({top:0,behavior:'instant'});
+  if(location.hash&&!location.hash.startsWith('#/'))requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView({block:'start'}));
   if(path==='/expert'&&params.get('element'))requestAnimationFrame(()=>document.getElementById('expert-result')?.scrollIntoView({block:'start'}));
 }
 document.getElementById('menu-toggle').addEventListener('click',e=>{const nav=document.getElementById('main-nav');nav.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(nav.classList.contains('open')));});
-window.addEventListener('hashchange',render);
+window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#/'))render();});
 window.addEventListener('popstate',render);
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href]');
