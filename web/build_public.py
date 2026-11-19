@@ -111,6 +111,8 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
         if item.is_file():
             shutil.copy2(item, dist / item.name)
     shutil.copytree(source / "static/media", dist / "media", dirs_exist_ok=True)
+    entry=dist/'index.html'
+    entry.write_text(entry.read_text(encoding='utf-8').replace('src="./app.js"','src="./app.js?v='+version+'"').replace('href="./style.css"','href="./style.css?v='+version+'"'),encoding='utf-8')
     (dist / "knowledge.json").write_text(encoded, encoding="utf-8")
     sw = dist / "sw.js"
     sw.write_text(sw.read_text(encoding="utf-8").replace("__BUILD__", version), encoding="utf-8")

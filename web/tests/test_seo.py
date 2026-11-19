@@ -56,7 +56,7 @@ def run():
         assert page.h1 == 1 and page.description
         assert page.robots.startswith('noindex' if relative in {'search', 'stats', 'library'} else 'index')
         for asset in page.assets:
-            assert (file.parent/asset).resolve().is_file(), (file, asset)
+            assert (file.parent/urlsplit(asset).path).resolve().is_file(), (file, asset)
         for target in page.links:
             if target.startswith(BASE):
                 route = urlsplit(target).path.removeprefix(urlsplit(BASE).path)

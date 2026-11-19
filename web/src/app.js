@@ -216,7 +216,8 @@ document.addEventListener('click',e=>{
 });
 async function init(){
   try{
-    const response=await fetch(new URL('./knowledge.json',import.meta.url));if(!response.ok)throw new Error('knowledge unavailable');
+    const knowledgeURL=new URL('./knowledge.json',import.meta.url);knowledgeURL.search=new URL(import.meta.url).search;
+    const response=await fetch(knowledgeURL);if(!response.ok)throw new Error('knowledge unavailable');
     data=await response.json();ix=new KnowledgeIndex(data);render();
     if('serviceWorker' in navigator)navigator.serviceWorker.register(new URL('./sw.js',import.meta.url)).catch(()=>{});
   }catch(error){main.setAttribute('aria-busy','false');main.innerHTML=pageHead('Не удалось загрузить базу знаний')+'<p>Проверьте интернет-соединение и попробуйте ещё раз.</p><button class="btn" id="retry-load">Повторить загрузку</button>';document.getElementById('retry-load').addEventListener('click',init);console.error(error);}
