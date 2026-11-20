@@ -21,12 +21,14 @@ def build_memory_index(no_synonyms=False):
 
 def memory_rules():
     """Правила экспертной системы в том же виде, что возвращает db.expert_knowledge()."""
+    from data.review_model import rule_note
     cid = {c[0]: i + 1 for i, c in enumerate(K.CONCEPTS)}
     rules = []
     for code, conds, then, cf, expl in K.RULES:
         r = {"code": code, "conditions": conds, "cf": cf, "explanation": expl,
              "then_kind": then[0], "then_attribute": None, "then_value": None,
              "id_tag": None, "tag_name": None}
+        r['provenance']=rule_note((code,conds,then,cf,expl))
         if then[0] == "fact":
             r["then_attribute"], r["then_value"] = then[1], then[2]
         else:

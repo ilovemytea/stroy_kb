@@ -60,7 +60,7 @@ def run():
         for target in page.links:
             if target.startswith(BASE):
                 route = urlsplit(target).path.removeprefix(urlsplit(BASE).path)
-                assert (DIST/route/'index.html').is_file(), (file, target)
+                assert (DIST/route/'index.html').is_file() or (DIST/route).is_file(), (file, target)
         for ld in __import__('re').findall(r'<script type="application/ld\+json">(.*?)</script>', text):
             json.loads(ld)
     data = json.loads((DIST/'knowledge.json').read_text(encoding='utf-8'))

@@ -8,6 +8,7 @@ import json
 import statistics
 import sys
 import time
+from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -57,6 +58,20 @@ GOLD = {
     },
 }
 
+# Additional relevance judgments for the expanded corpus, declared before measurement.
+GOLD['слово'].update({
+    'грунтовка':['Грунтовка: какую выбрать и когда она действительно нужна'],
+    'гидроизаляция':['Рулонная и обмазочная гидроизоляция фундамента','Гидроизоляция ванной: углы, трубы и порядок слоёв'],
+})
+GOLD['словосочетание'].update({
+    'пароизоляция и мембрана':['Пароизоляция и мембрана: почему их нельзя менять местами'],
+    'уход за бетоном':['Бетон после заливки: уход важнее добавления воды'],
+})
+GOLD['предложение'].update({
+    'как рассчитать количество плитки для ванной':['Как посчитать плитку: площадь, подрезка и запас'],
+    'почему грунтовка не укрепляет рыхлую стену':['Грунтовка: какую выбрать и когда она действительно нужна'],
+})
+
 CONFIGS = [
     ("full", "Полная система"),
     ("no_spell", "Без исправления опечаток"),
@@ -65,16 +80,23 @@ CONFIGS = [
 ]
 
 
-def build(config):
+@contextmanager
+def evaluation_mode(config):
+    """Keep preprocessing consistent for BOTH indexing and query evaluation."""
     real_stem = text._stem
     if config == "no_stem":
         identity = lambda w: w.lower().replace("ё", "е")          # noqa: E731
         text._stem = identity
         text.stem.cache_clear()
     try:
-        ix = build_memory_index(no_synonyms=(config == "no_onto"))
+        yield
     finally:
         text._stem = real_stem
+        text.stem.cache_clear()
+
+
+def build(config):
+    ix = build_memory_index(no_synonyms=(config == "no_onto"))
     if config == "no_onto":
         ix._expand = lambda *a, **k: None
     if config == "no_spell":
@@ -83,6 +105,11 @@ def build(config):
 
 
 def evaluate(config):
+    with evaluation_mode(config):
+        return _evaluate(config)
+
+
+def _evaluate(config):
     ix = build(config)
     out = {}
     for kind, queries in GOLD.items():
@@ -105,8 +132,6 @@ def evaluate(config):
                               "answer": bool(res["answer"]), "words": len(res["query"].words)})
         out[kind] = {"P@1": statistics.mean(p1), "MRR": statistics.mean(rr), "R@5": statistics.mean(rec5),
                      "ms": statistics.mean(times), "ms_max": max(times), "queries": per_query}
-    if config == "no_stem":
-        text.stem.cache_clear()
     return out, ix.stats()
 
 

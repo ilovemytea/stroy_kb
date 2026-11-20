@@ -1,0 +1,26 @@
+{
+  "method": "Авторский контрольный набор, составленный по задачам пользователя до запуска измерения. Это проверка заявленного поведения учебной модели, а не независимая строительная экспертиза.",
+  "cases": [
+    {"id":"no-input","answers":{},"top":[],"abstain":true},
+    {"id":"foundation","answers":{"element":"Фундамент"},"top":["Бетон"],"forbidden":["Силикатный кирпич","Газобетон","Гипсокартон"],"facts":{"need_water":"да","need_moisture":"да"}},
+    {"id":"wet-partition","answers":{"element":"Перегородка","humidity":"Влажное помещение"},"top":["Влагостойкий гипсокартон"],"forbidden":["Гипсокартон"]},
+    {"id":"fire-partition","answers":{"element":"Перегородка","fire":"Да"},"top":["Огнестойкий гипсокартон"]},
+    {"id":"fast-partition","answers":{"element":"Перегородка","speed":"Да"},"top":["Гипсокартон"]},
+    {"id":"economy-wall","answers":{"element":"Наружная стена","building":"Каменный дом","load":"Несущая","budget":"Эконом","speed":"Да"},"top":["Газобетон"]},
+    {"id":"middle-wall","answers":{"element":"Наружная стена","building":"Каменный дом","budget":"Средний"},"top":["Газобетон","Керамический блок"]},
+    {"id":"premium-wall","answers":{"element":"Наружная стена","building":"Каменный дом","budget":"Премиум"},"top":["Облицовочный кирпич"]},
+    {"id":"frame-wall","answers":{"element":"Наружная стена","building":"Каркасный дом"},"top":["Пиломатериалы"],"forbidden":["Газобетон"]},
+    {"id":"bath-wall","answers":{"element":"Наружная стена","building":"Баня"},"top":["Брус"]},
+    {"id":"flat-roof","answers":{"element":"Кровля","slope":"Плоская"},"top":["Рулонная гидроизоляция"],"forbidden":["Металлочерепица","Керамическая черепица"]},
+    {"id":"cheap-roof","answers":{"element":"Кровля","slope":"Скатная","budget":"Эконом"},"top":["Профнастил"]},
+    {"id":"middle-roof","answers":{"element":"Кровля","slope":"Скатная","budget":"Средний"},"top":["Металлочерепица"]},
+    {"id":"premium-roof","answers":{"element":"Кровля","slope":"Скатная","budget":"Премиум"},"top":["Керамическая черепица"]},
+    {"id":"fire-facade","answers":{"element":"Утепление","place":"Фасад","fire":"Да"},"top":["Минеральная вата"],"forbidden":["Пенополистирол"]},
+    {"id":"floor-insulation","answers":{"element":"Утепление","place":"Пол / фундамент"},"top":["Экструдированный пенополистирол"],"forbidden":["Минеральная вата"]},
+    {"id":"bath-facade","answers":{"element":"Утепление","building":"Баня","place":"Фасад"},"top":["Минеральная вата"],"forbidden":["Пенополистирол"]},
+    {"id":"wet-floor","answers":{"element":"Пол","humidity":"Влажное помещение"},"top":["Керамогранит"]},
+    {"id":"dry-finish","answers":{"element":"Отделка стен","humidity":"Сухое помещение"},"top":["Гипсовая штукатурка"]},
+    {"id":"wet-finish","answers":{"element":"Отделка стен","humidity":"Влажное помещение"},"top":["Керамическая плитка"],"forbidden":["Гипсовая штукатурка"]},
+    {"id":"garden","answers":{"element":"Садовая дорожка","budget":"Премиум"},"top":["Тротуарная плитка"]}
+  ]
+}

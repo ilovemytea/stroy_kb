@@ -17,6 +17,13 @@
          {% if is_admin %} · <a href="{{ url_for('admin_concept', cid=c.id_tag) }}">Редактировать</a>{% endif %}</p>
     </div>
 
+    {% if c.properties %}
+    <h2>Числовые атрибуты</h2>
+    <p>Отдельные записи с единицами и источником. Значения учебные; условия измерения и паспорт изделия в исходном каталоге отсутствуют.</p>
+    <div class="table-wrap"><table class="grid"><tr><th>Изделие</th><th>Атрибут</th><th>Значение</th><th>Единица</th><th>Источник и условия</th></tr>
+      {% for p in c.properties %}<tr><td>{{ p.product }}</td><td>{{ p.label }}</td><td>{{ p.value }}</td><td>{{ p.unit }}</td><td><a href="{{ p.source_url }}" target="_blank" rel="noopener">{{ p.source_kind }}</a><br><small>{{ p.conditions }}</small></td></tr>{% endfor %}
+    </table></div>
+    {% endif %}
     <h2>Семантические связи</h2>
     {% for label, items in groups.items() %}
       <div class="card">

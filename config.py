@@ -2,7 +2,7 @@
 import os
 
 SQL_SERVER = os.getenv("STROYMIR_SQL_SERVER", ".")            # «.» = локальный экземпляр по умолчанию
-SQL_DATABASE = os.getenv("STROYMIR_SQL_DATABASE", "StroyMir_KB")
+SQL_DATABASE = os.getenv("STROYMIR_SQL_DATABASE", "StroyMir_KB_Review_20261121")
 SQL_USER = os.getenv("STROYMIR_SQL_USER")                     # пусто = проверка подлинности Windows
 SQL_PASSWORD = os.getenv("STROYMIR_SQL_PASSWORD", "")
 SQL_DRIVER = os.getenv("STROYMIR_SQL_DRIVER", "ODBC Driver 17 for SQL Server")

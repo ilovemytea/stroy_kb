@@ -15,6 +15,7 @@ def render_static_site(dist: Path, data: dict, site_url: str):
     prefix = parsed.path
     esc = lambda value: html.escape(str(value), quote=True)
     concepts = {c['id']: c for c in data['concepts']}
+    from docs.render_research import research_fragment
 
     def url(path=''):
         return site_url + path.strip('/') + ('/' if path.strip('/') else '')
@@ -80,7 +81,16 @@ def render_static_site(dist: Path, data: dict, site_url: str):
         content = title(c['name'],c['category'])+f'<p class="definition">{esc(c["description"])}</p>'
         if c['synonyms']:
             content += '<p>Другие названия: '+esc(', '.join(c['synonyms']))+'</p>'
+        facts=[p for p in data.get('properties',[]) if p['concept']==c['name'] or p['label']==c['name']]
+        if facts:
+            content+='<h2>Числовые атрибуты</h2><p>Учебный каталог; условия измерения и паспорт не указаны. Это не проектные характеристики.</p><div class="table-wrap"><table class="grid"><tr><th>Изделие</th><th>Атрибут</th><th>Значение</th><th>Единица</th><th>Источник</th></tr>'
+            for p in facts:
+                content+=f'<tr><td>{esc(p["product"])}</td><td>{esc(p["label"])}</td><td>{p["value"]}</td><td>{esc(p["unit"])}</td><td><a href="{esc(p["source_url"])}">{esc(p["source_kind"])}</a></td></tr>'
+            content+='</table></div>'
         content += '<h2>Связи понятия</h2><ul>'
+        out_replacements={r['to'] for r in data['relations'] if r['from']==c['id'] and r['type']=='заменяет'}
+        in_replacements={r['from'] for r in data['relations'] if r['to']==c['id'] and r['type']=='заменяет'}
+        mutual=out_replacements & in_replacements
         for r in data['relations']:
             if r['from'] == c['id']:
                 target, label = r['to'], data['labels'][r['type']][0]
@@ -88,6 +98,9 @@ def render_static_site(dist: Path, data: dict, site_url: str):
                 target, label = r['from'], data['labels'][r['type']][1]
             else:
                 continue
+            if r['type']=='заменяет' and target in mutual:
+                if r['to']==c['id']:continue
+                label='Взаимная замена (зависит от условий)'
             content += '<li>'+esc(label)+': '+link('concept/'+str(target),concepts[target]['name'])+'</li>'
         content += '</ul>'
         docs = [d for d in data['documents'] if any(t['id'] == c['id'] for t in d['tags'])]
@@ -109,15 +122,22 @@ def render_static_site(dist: Path, data: dict, site_url: str):
         content += '<article class="article-card"><h2>'+esc(p['name'])+'</h2><p>'+esc(p['manufacturer'])+'</p><p>'+esc(p['category'])+'</p></article>'
     content += '</div>'
     pages['catalog'] = ('Каталог строительных материалов — ctroimir','Материалы, производители и характеристики из учебного каталога проекта.',content,None)
-    content = title('База экспертных правил','Объяснимый подбор строительных материалов с прямым выводом и коэффициентами уверенности.')+'<ul>'
+    content = title('База экспертных правил','Полные условия ЕСЛИ, заключения ТО и происхождение авторских весов CF.')
+    content+='<p class="model-note">CF назначены автором учебной модели. Они не являются вероятностями или нормативными коэффициентами. Технические источники не подтверждают численные веса.</p><div class="table-wrap"><table class="grid"><tr><th>Код</th><th>ЕСЛИ</th><th>ТО</th><th>CF</th><th>Объяснение и источник</th></tr>'
     for rule in data['rules']:
-        content += '<li><b>'+esc(rule['code'])+'</b>: '+esc(rule['explanation'])+'</li>'
-    content += '</ul>'
-    pages['rules'] = ('Экспертные правила подбора материалов — ctroimir','84 продукционных правила: условия, рекомендации и объяснение выбора строительных материалов.',content,None)
+        conclusion=rule['then_attribute']+' = '+rule['then_value'] if rule['then_kind']=='fact' else rule['tag_name']
+        conditions=' И '.join(a+' = '+v for a,v in rule['conditions'])
+        provenance=rule['provenance']
+        notes=f'<details><summary>{esc(provenance["kind"])} · источник и вес</summary><p>{esc(provenance["cf_basis"])}</p><a href="{esc(provenance["source_url"])}">{esc(provenance["source_label"])}</a>'
+        for ref in provenance['references']:
+            notes+=f'<p><a href="{esc(ref["url"])}">{esc(ref["title"])}</a><br>{esc(ref["scope"])}</p>'
+        content+=f'<tr><td>{esc(rule["code"])}</td><td>{esc(conditions)}</td><td>{esc(conclusion)}</td><td>{rule["cf"]}</td><td>{esc(rule["explanation"])}{notes}</details></td></tr>'
+    content+='</table></div>'
+    pages['rules'] = ('Экспертные правила — ctroimir','Условия, выводы, авторские веса и технический контекст правил.',content,None)
     pages['expert'] = ('Подбор строительных материалов — ctroimir','Экспертный подбор материалов для стен, фундамента, кровли, утепления и отделки.',title('Подбор строительных материалов')+'<p>Включите JavaScript, чтобы ответить на вопросы и получить рекомендации с объяснениями.</p>'+link('rules','Посмотреть правила подбора'),None)
     pages['graph'] = ('Онтология строительных материалов — ctroimir','Семантическая сеть: Понятия и семантические связи строительных материалов, свойств и технологий.',title('Онтология строительных материалов')+concept_chips(data['concepts']),None)
     pages['search'] = ('Поиск по строительным материалам — ctroimir','Поиск по базе знаний с учётом словоформ, синонимов и опечаток.',title('Поиск по базе знаний')+'<p>Включите JavaScript для интеллектуального поиска.</p>',None)
-    pages['stats'] = ('Исследование базы знаний — ctroimir','Измерение скорости поиска на устройстве посетителя.',title('Исследование базы знаний'),None)
+    pages['stats'] = ('Исследование базы знаний — ctroimir','Измерение скорости поиска на устройстве посетителя.',title('Исследование базы знаний')+research_fragment(data.get('research'))+f'<p><a href="{esc(site_url)}research-results.json" download>Скачать исходные результаты JSON</a></p>',None)
 
     content=title('Практические инструкции','Стены, утепление, кровля, ванная и участок. Выберите статью под свою задачу.')
     for collection in data.get('collections',[]):

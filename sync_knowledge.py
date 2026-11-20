@@ -7,8 +7,11 @@ import json
 from data import knowledge as K
 from data.enrichment import guide_for
 import db
+import config
 
 def sync():
+    if '_Review_' not in config.SQL_DATABASE:
+        raise RuntimeError('Эта экспериментальная копия обновляет только отдельную базу _Review_.')
     added = 0
     with db.connect() as conn:
         cur=conn.cursor()

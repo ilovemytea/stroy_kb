@@ -1,6 +1,6 @@
 // Cache the complete public knowledge base for a repeat visit without a network.
 const CACHE='dusovstroimir-__BUILD__';
-const ASSETS=['./','./index.html','./style.css','./app.js','./engine.js','./graph.js','./knowledge.json','./icon.svg','./manifest.webmanifest'];
+const ASSETS=['./','./index.html','./style.css?v=__BUILD__','./app.js?v=__BUILD__','./engine.js','./graph.js','./knowledge.json?v=__BUILD__','./review.js?v=__BUILD__','./icon.svg','./manifest.webmanifest'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('dusovstroimir-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

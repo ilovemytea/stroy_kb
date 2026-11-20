@@ -207,3 +207,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 [hidden]{display:none!important}
 
 .reader-cover{height:auto}
+
+.model-note,.data-warning{padding:16px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:8px}.rule-source{margin-top:12px;min-width:190px}.rule-source summary{cursor:pointer;font-weight:600}.rule-source p{max-width:540px}.hash{overflow-wrap:anywhere}.research-results{margin:28px 0;border-top:1px solid var(--line);padding-top:8px}.typed-properties td small{display:block;max-width:320px}.research-results details{margin:16px 0}.research-results td{vertical-align:top}
+
+.review-banner{background:#f4c66a;color:#302611;padding:10px 16px;text-align:center;font-size:14px;font-weight:600}

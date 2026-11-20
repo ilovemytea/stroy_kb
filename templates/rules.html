@@ -2,6 +2,7 @@
 {% block title %}База правил — СтройМир{% endblock %}
 {% block content %}
 <h1>База правил экспертной системы</h1>
+<p class="model-note">CF — авторские веса учебной модели, не вероятность и не нормативные коэффициенты. Технические ссылки поясняют контекст и не подтверждают численный вес. Правила с разными бюджетными условиями не являются точными дублями.</p>
 <p class="muted">Продукционные правила хранятся в таблицах kb.Rule и kb.RuleCondition. Правила-факты выводят промежуточные
 факты рабочей памяти, правила-рекомендации изменяют коэффициент уверенности (CF) для материала.</p>
 <h2>Вопросы (атрибуты)</h2>
@@ -19,7 +20,12 @@
     <tr><td>{{ r.code }}</td>
         <td>{% for a, v in r.conditions %}{{ a }} = «{{ v }}»{{ ' И ' if not loop.last }}{% endfor %}</td>
         <td>{% if r.then_kind == 'fact' %}{{ r.then_attribute }} = «{{ r.then_value }}»{% else %}<a href="{{ url_for('concept', cid=r.id_tag) }}">{{ r.tag_name }}</a>{% endif %}</td>
-        <td class="num">{{ '%+.2f'|format(r.cf) }}</td><td>{{ r.explanation }}</td></tr>
+        <td class="num">{{ '%+.2f'|format(r.cf) }}</td><td>{{ r.explanation }}
+          {% if r.provenance %}<details class="rule-source"><summary>{{ r.provenance.kind }} · источник и вес</summary>
+            <p>{{ r.provenance.basis }}</p><p>{{ r.provenance.cf_basis }}</p>
+            <a href="{{ r.provenance.source_url }}" target="_blank" rel="noopener">{{ r.provenance.source_label }}</a>
+            {% for source in r.provenance.references %}<p><a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a><br><small>{{ source.scope }}</small></p>{% else %}<p>Отдельный внешний технический источник для этой эвристики не заявлен.</p>{% endfor %}
+          </details>{% endif %}</td></tr>
   {% endfor %}
 </table></div>
 {% endblock %}

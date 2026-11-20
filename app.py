@@ -3,6 +3,8 @@
 
 Запуск:  py app.py   →  http://localhost:5000
 """
+import json
+from pathlib import Path
 import threading
 import time
 from datetime import date
@@ -29,6 +31,9 @@ if not config.ADMIN_PASSWORD or not config.SECRET_KEY:
         "Перед запуском задайте STROYMIR_ADMIN_PASSWORD и STROYMIR_SECRET_KEY "
         "в переменных окружения (см. README.md)."
     )
+
+if '_Review_' not in config.SQL_DATABASE:
+    raise RuntimeError('Экспериментальная копия не подключается к рабочей базе. Выберите отдельную базу _Review_.')
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
@@ -164,9 +169,15 @@ def concept(cid):
     if not c:
         abort(404)
     groups = {}
+    out_replace={n['id_tag'] for n in c['neighbors'] if n['relation_type']=='заменяет' and n['direction']=='out'}
+    in_replace={n['id_tag'] for n in c['neighbors'] if n['relation_type']=='заменяет' and n['direction']=='in'}
+    mutual=out_replace & in_replace
     for n in c["neighbors"]:
         labels = RELATION_LABELS.get(n["relation_type"], (n["relation_type"], n["relation_type"]))
         label = labels[0] if n["direction"] == "out" else labels[1]
+        if n['relation_type']=='заменяет' and n['id_tag'] in mutual:
+            if n['direction']=='in':continue
+            label='Взаимная замена (зависит от условий)'
         groups.setdefault(label, []).append(n)
     return render_template("concept.html", c=c, groups=groups)
 
@@ -221,7 +232,12 @@ def expert_rules():
 # ------------------------------------------------------------------ каталог и статистика
 @app.route("/catalog")
 def catalog():
-    return render_template("catalog.html", rows=db.catalog())
+    from data.review_model import CATALOG_ISSUES
+    rows=db.catalog()
+    for row in rows:
+        row['review_issue']=CATALOG_ISSUES.get(row.get('id_product'))
+        if row['product_name']=='Минеральная вата фасадная 100 кг/м3':row['review_issue']=CATALOG_ISSUES[15]
+    return render_template("catalog.html", rows=rows)
 
 
 BENCH_QUERIES = [
@@ -253,7 +269,10 @@ def stats():
                           "total": r["total"], "median": round(times[len(times) // 2], 2),
                           "max": round(times[-1], 2),
                           "top": r["results"][0]["doc"]["title"] if r["results"] else "—"})
-    return render_template("stats.html", engine=ix.stats(), s=db.search_stats(), bench=bench)
+    from docs.render_research import research_fragment
+    path=Path(__file__).parent/'docs/research-results.json'
+    research=json.loads(path.read_text(encoding='utf-8')) if path.exists() else None
+    return render_template("stats.html", engine=ix.stats(), s=db.search_stats(), bench=bench,research_html=research_fragment(research))
 
 
 # ------------------------------------------------------------------ администрирование

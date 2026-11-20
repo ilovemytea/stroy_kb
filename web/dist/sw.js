@@ -1,6 +1,6 @@
 // Cache the complete public knowledge base for a repeat visit without a network.
-const CACHE='dusovstroimir-cd4ee0e283a1';
-const ASSETS=['./','./index.html','./style.css','./app.js','./engine.js','./graph.js','./knowledge.json','./icon.svg','./manifest.webmanifest'];
+const CACHE='dusovstroimir-8fb8edf4719e';
+const ASSETS=['./','./index.html','./style.css?v=8fb8edf4719e','./app.js?v=8fb8edf4719e','./engine.js','./graph.js','./knowledge.json?v=8fb8edf4719e','./review.js?v=8fb8edf4719e','./icon.svg','./manifest.webmanifest'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('dusovstroimir-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

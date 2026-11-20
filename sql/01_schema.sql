@@ -25,11 +25,11 @@
 USE master;
 GO
 
-IF DB_ID(N'StroyMir_KB') IS NULL
-    CREATE DATABASE StroyMir_KB COLLATE Cyrillic_General_CI_AS;
+IF DB_ID(N'StroyMir_KB_Review_20261121') IS NULL
+    CREATE DATABASE StroyMir_KB_Review_20261121 COLLATE Cyrillic_General_CI_AS;
 GO
 
-USE StroyMir_KB;
+USE StroyMir_KB_Review_20261121;
 GO
 
 IF SCHEMA_ID(N'kb') IS NULL
@@ -37,6 +37,9 @@ IF SCHEMA_ID(N'kb') IS NULL
 GO
 
 /* Очистка при повторном запуске: дочерние таблицы раньше родительских */
+DROP TABLE IF EXISTS kb.MaterialProperty;
+DROP TABLE IF EXISTS kb.PropertyDefinition;
+DROP TABLE IF EXISTS kb.RuleProvenance;
 DROP TABLE IF EXISTS kb.ArticleGuide;
 DROP TABLE IF EXISTS kb.SearchLog;
 DROP TABLE IF EXISTS kb.RuleCondition;
@@ -367,4 +370,16 @@ CREATE TABLE kb.ArticleGuide (
     CONSTRAINT FK_ArticleGuide_Material FOREIGN KEY(id_material)
         REFERENCES kb.Material(id_material) ON DELETE CASCADE
 );
+GO
+
+/* Optional review model: typed facts and rule provenance. */
+CREATE TABLE kb.RuleProvenance(code NVARCHAR(20) NOT NULL PRIMARY KEY,notes NVARCHAR(MAX) NOT NULL CHECK(ISJSON(notes)=1));
+CREATE TABLE kb.PropertyDefinition(code NVARCHAR(40) NOT NULL PRIMARY KEY,name NVARCHAR(100) NOT NULL,unit NVARCHAR(40) NOT NULL);
+CREATE TABLE kb.MaterialProperty(
+    id_product INT NOT NULL REFERENCES dbo.Product(id_product),
+    id_tag INT NOT NULL REFERENCES kb.Tag(id_tag),
+    property_code NVARCHAR(40) NOT NULL REFERENCES kb.PropertyDefinition(code),
+    numeric_value DECIMAL(14,4) NOT NULL CHECK(numeric_value>0),
+    conditions NVARCHAR(500) NOT NULL,source_kind NVARCHAR(80) NOT NULL,source_url NVARCHAR(500) NOT NULL,
+    PRIMARY KEY(id_product,property_code));
 GO

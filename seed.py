@@ -7,6 +7,8 @@
 import argparse
 import json
 from data.enrichment import guide_for
+from data.review_model import DEFINITIONS,property_records,rule_note
+from web.build_public import catalog
 import subprocess
 import sys
 from pathlib import Path
@@ -43,7 +45,7 @@ def generate():
         "   Наполнение каталога и базы знаний.\n"
         "   ФАЙЛ СГЕНЕРИРОВАН seed.py из data/knowledge.py — не редактируйте вручную.\n"
         "   ============================================================ */",
-        "USE StroyMir_KB;\nGO\n",
+        "USE StroyMir_KB_Review_20261121;\nGO\n",
         (ROOT / "data" / "catalog.sql").read_text(encoding="utf-8"),
         "\n/* ===================== БАЗА ЗНАНИЙ ===================== */\n",
     ]
@@ -112,6 +114,11 @@ def generate():
     for article in K.ARTICLES:
         encoded=json.dumps(guide_for(article),ensure_ascii=False)
         parts.append("INSERT kb.ArticleGuide(id_material,guide_json) SELECT id_material,"+q(encoded)+" FROM kb.Material WHERE title="+q(article[0])+";\nGO\n")
+    parts.append(values_insert('kb.PropertyDefinition',['code','name','unit'],[[q(code),q(name),q(unit)] for code,(name,unit) in DEFINITIONS.items()]))
+    for rule in K.RULES:
+        parts.append("INSERT kb.RuleProvenance(code,notes) VALUES("+q(rule[0])+","+q(json.dumps(rule_note(rule),ensure_ascii=False))+");\nGO\n")
+    for p in property_records(catalog(ROOT)):
+        parts.append("INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT "+q(p['product_id'])+",id_tag,"+','.join(q(p[key]) for key in ['attribute','value','conditions','source_kind','source_url'])+" FROM kb.Tag WHERE name="+q(p['concept'])+";\nGO\n")
     parts.append("EXEC kb.usp_RecalcRanks;\nGO\n")
     parts.append(
         "/* Контроль наполнения */\n"

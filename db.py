@@ -205,6 +205,14 @@ def concept(id_tag):
                        FROM kb.MaterialTag mt JOIN kb.Material m ON m.id_material = mt.id_material
                        WHERE mt.id_tag = ? ORDER BY mt.position_in_results""", id_tag)
         c["materials"] = _rows(cur)
+        cur.execute("SELECT OBJECT_ID(N'kb.MaterialProperty',N'U')")
+        c["properties"]=[]
+        if cur.fetchone()[0] is not None:
+            cur.execute("""SELECT pr.product_name AS product,d.name AS label,m.numeric_value AS value,d.unit,m.conditions,m.source_kind,m.source_url
+                FROM kb.MaterialProperty m JOIN kb.PropertyDefinition d ON d.code=m.property_code
+                JOIN kb.Tag t ON t.id_tag=m.id_tag JOIN dbo.Product pr ON pr.id_product=m.id_product
+                WHERE t.name=? OR d.name=? ORDER BY pr.id_product,d.code""",c['name'],c['name'])
+            c["properties"]=_rows(cur)
     return c
 
 
@@ -256,7 +264,11 @@ def expert_knowledge():
     by_rule = {}
     for c in conds:
         by_rule.setdefault(c["id_rule"], []).append((c["attribute"], c["value"]))
+    notes={}
+    if query("SELECT OBJECT_ID(N'kb.RuleProvenance',N'U') AS id")[0]['id'] is not None:
+        notes={n['code']:json.loads(n['notes']) for n in query('SELECT code,notes FROM kb.RuleProvenance')}
     for r in rules:
+        r['provenance']=notes.get(r['code'])
         r["conditions"] = by_rule.get(r["id_rule"], [])
         r["cf"] = float(r["cf"])
     return questions, rules

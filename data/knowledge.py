@@ -1179,3 +1179,7 @@ RELATIONS.extend(r for r in _extra.RELATIONS if r not in RELATIONS)
 ARTICLES.extend(_extra.ARTICLES)
 # Search-result URLs are not individual videos and have no reliable duration.
 ARTICLES = [a[:-1] + (None,) if a[-1] and '/results?' in a[-1][1] else a for a in ARTICLES]
+
+# Optional defense review: typed attributes and explicit rule assumptions.
+from data.review_model import apply_review
+apply_review(CONCEPTS, RELATIONS, RULES)

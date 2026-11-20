@@ -78,3 +78,12 @@ def test_practical_guide_pages(client):
     assert article.status_code==200
     assert 'Посмотрите на схему' in text and 'data-local-save' in text
     assert 'data-local-video' in text and '/static/media/drywall.jpg' in text
+
+
+def test_review_properties_sources_and_saved_research(client):
+    concept=client.get('/concept/8').get_data(as_text=True)
+    assert 'Числовые атрибуты' in concept and 'Вт/(м·К)' in concept
+    rules=client.get('/expert/rules').get_data(as_text=True)
+    assert 'источник и вес' in rules and 'авторские веса' in rules
+    stats=client.get('/stats').get_data(as_text=True)
+    assert 'Сохранённое исследование' in stats and 'P@1' in stats

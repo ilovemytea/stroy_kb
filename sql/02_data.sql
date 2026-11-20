@@ -3,7 +3,7 @@
    Наполнение каталога и базы знаний.
    ФАЙЛ СГЕНЕРИРОВАН seed.py из data/knowledge.py — не редактируйте вручную.
    ============================================================ */
-USE StroyMir_KB;
+USE StroyMir_KB_Review_20261121;
 GO
 
 /* Каталог продукции — демонстрационные данные из лабораторной работы №7 */
@@ -350,7 +350,8 @@ FROM (VALUES
     (N'Усадка', N'Свойства', N'усадочные трещины', N'Уменьшение размеров материала при твердении или высыхании. Ограничивается подбором состава, уходом и устройством швов.'),
     (N'Подготовка основания', N'Технологии', N'подготовка поверхности', N'Проверка прочности, чистоты, влажности и геометрии поверхности перед нанесением следующего материала.'),
     (N'Уход за бетоном', N'Технологии', N'влажностный уход', N'Защита молодого бетона от быстрого высыхания, неблагоприятной температуры и раннего нагружения.'),
-    (N'Расчёт количества материалов', N'Технологии', N'расход материала; запас на подрезку', N'Подсчёт потребности по площади, толщине, формату и расходу производителя с отдельно учтённым запасом.')
+    (N'Расчёт количества материалов', N'Технологии', N'расход материала; запас на подрезку', N'Подсчёт потребности по площади, толщине, формату и расходу производителя с отдельно учтённым запасом.'),
+    (N'Срок службы', N'Свойства', N'долговечность; расчётный срок эксплуатации', N'Продолжительность эксплуатации при заданных условиях обслуживания. Учебное значение не является гарантией производителя.')
 ) AS v(name, category, synonyms, definition)
 JOIN kb.Category AS c ON c.name = v.category;
 GO
@@ -559,7 +560,46 @@ FROM (VALUES
     (N'Уход за бетоном', N'применяется_для', N'Фундамент'),
     (N'Подготовка основания', N'применяется_для', N'Отделка стен'),
     (N'Расчёт количества материалов', N'применяется_для', N'Кладка'),
-    (N'Мостик холода', N'обладает_свойством', N'Теплопроводность')
+    (N'Мостик холода', N'обладает_свойством', N'Теплопроводность'),
+    (N'Брус', N'обладает_свойством', N'Плотность'),
+    (N'Брус', N'обладает_свойством', N'Теплопроводность'),
+    (N'Брус', N'обладает_свойством', N'Срок службы'),
+    (N'Влагостойкий гипсокартон', N'обладает_свойством', N'Плотность'),
+    (N'Влагостойкий гипсокартон', N'обладает_свойством', N'Теплопроводность'),
+    (N'Влагостойкий гипсокартон', N'обладает_свойством', N'Срок службы'),
+    (N'Газобетон', N'обладает_свойством', N'Плотность'),
+    (N'Газобетон', N'обладает_свойством', N'Срок службы'),
+    (N'Гипсокартон', N'обладает_свойством', N'Плотность'),
+    (N'Гипсокартон', N'обладает_свойством', N'Теплопроводность'),
+    (N'Гипсокартон', N'обладает_свойством', N'Срок службы'),
+    (N'Керамический кирпич', N'обладает_свойством', N'Плотность'),
+    (N'Керамический кирпич', N'обладает_свойством', N'Теплопроводность'),
+    (N'Керамический кирпич', N'обладает_свойством', N'Срок службы'),
+    (N'Металлочерепица', N'обладает_свойством', N'Плотность'),
+    (N'Металлочерепица', N'обладает_свойством', N'Теплопроводность'),
+    (N'Металлочерепица', N'обладает_свойством', N'Срок службы'),
+    (N'Минеральная вата', N'обладает_свойством', N'Плотность'),
+    (N'Минеральная вата', N'обладает_свойством', N'Теплопроводность'),
+    (N'Минеральная вата', N'обладает_свойством', N'Срок службы'),
+    (N'Пенополистирол', N'обладает_свойством', N'Плотность'),
+    (N'Пенополистирол', N'обладает_свойством', N'Срок службы'),
+    (N'Профнастил', N'обладает_свойством', N'Плотность'),
+    (N'Профнастил', N'обладает_свойством', N'Теплопроводность'),
+    (N'Профнастил', N'обладает_свойством', N'Срок службы'),
+    (N'Силикатный кирпич', N'обладает_свойством', N'Плотность'),
+    (N'Силикатный кирпич', N'обладает_свойством', N'Теплопроводность'),
+    (N'Силикатный кирпич', N'обладает_свойством', N'Срок службы'),
+    (N'Тротуарная плитка', N'обладает_свойством', N'Плотность'),
+    (N'Тротуарная плитка', N'обладает_свойством', N'Теплопроводность'),
+    (N'Тротуарная плитка', N'обладает_свойством', N'Срок службы'),
+    (N'Цемент', N'обладает_свойством', N'Плотность'),
+    (N'Цемент', N'обладает_свойством', N'Теплопроводность'),
+    (N'Цемент', N'обладает_свойством', N'Срок службы'),
+    (N'Экструдированный пенополистирол', N'обладает_свойством', N'Плотность'),
+    (N'Экструдированный пенополистирол', N'обладает_свойством', N'Теплопроводность'),
+    (N'Экструдированный пенополистирол', N'обладает_свойством', N'Срок службы'),
+    (N'Керамический кирпич', N'обладает_свойством', N'Прочность на сжатие'),
+    (N'Газобетон', N'обладает_свойством', N'Прочность на сжатие')
 ) AS v(src, rel, dst)
 JOIN kb.Tag AS f ON f.name = v.src
 JOIN kb.Tag AS t ON t.name = v.dst;
@@ -1513,11 +1553,11 @@ VALUES ('R09', 'fact', N'need_moisture', N'да', 1.0, N'Контакт с во�
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'need_water', N'да')) AS v(a, v) WHERE r.code = 'R09';
 INSERT INTO kb.[Rule] (code, then_kind, then_attribute, then_value, cf, explanation)
-VALUES ('R10', 'fact', N'fire', N'Да', 1.0, N'В бане высокие температуры — нужны негорючие материалы');
+VALUES ('R10', 'fact', N'fire', N'Да', 1.0, N'В учебной модели для бани консервативно включается приоритет негорючих решений. Это допущение модели, а не утверждение об одинаковой температуре во всех помещениях.');
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'building', N'Баня')) AS v(a, v) WHERE r.code = 'R10';
 INSERT INTO kb.[Rule] (code, then_kind, then_attribute, then_value, cf, explanation)
-VALUES ('R11', 'fact', N'need_moisture', N'да', 1.0, N'В бане высокая влажность');
+VALUES ('R11', 'fact', N'need_moisture', N'да', 1.0, N'Для учебного подбора бани учитывается повышенная влажность; реальная влажность зависит от помещения и режима эксплуатации.');
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'building', N'Баня')) AS v(a, v) WHERE r.code = 'R11';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1525,15 +1565,15 @@ SELECT 'R20', 'tag', id_tag, 0.7, N'Кирпич — прочный долгов
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'load', N'Несущая')) AS v(a, v) WHERE r.code = 'R20';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R21', 'tag', id_tag, 0.8, N'Газобетон дёшев и тёпл: стена без утеплителя' FROM kb.Tag WHERE name = N'Газобетон';
+SELECT 'R21', 'tag', id_tag, 0.8, N'Газобетон рассматривается как один из вариантов при экономном бюджете. Толщина стены и необходимость утепления определяются теплотехническим расчётом.' FROM kb.Tag WHERE name = N'Газобетон';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'budget', N'Эконом')) AS v(a, v) WHERE r.code = 'R21';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R22', 'tag', id_tag, 0.6, N'Газобетон — оптимальное соотношение цены и теплозащиты' FROM kb.Tag WHERE name = N'Газобетон';
+SELECT 'R22', 'tag', id_tag, 0.6, N'Для среднего бюджета газобетон остаётся одним из вариантов. Стоимость сравнивают по готовой стене, а не только по цене блока.' FROM kb.Tag WHERE name = N'Газобетон';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'budget', N'Средний')) AS v(a, v) WHERE r.code = 'R22';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R23', 'tag', id_tag, 0.6, N'Тёплая керамика — однослойная стена без утепления' FROM kb.Tag WHERE name = N'Керамический блок';
+SELECT 'R23', 'tag', id_tag, 0.6, N'Керамический блок рассматривается для стен. Возможность однослойной стены зависит от марки, толщины и расчётного климата.' FROM kb.Tag WHERE name = N'Керамический блок';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'budget', N'Средний')) AS v(a, v) WHERE r.code = 'R23';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1541,7 +1581,7 @@ SELECT 'R24', 'tag', id_tag, 0.6, N'Лицевой кирпич не требу�
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'budget', N'Премиум')) AS v(a, v) WHERE r.code = 'R24';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R25', 'tag', id_tag, 0.5, N'Тёплая керамика долговечна и экологична' FROM kb.Tag WHERE name = N'Керамический блок';
+SELECT 'R25', 'tag', id_tag, 0.5, N'Керамический блок — один из вариантов премиального сценария; срок службы зависит от изделия и конструкции.' FROM kb.Tag WHERE name = N'Керамический блок';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'building', N'Каменный дом'), (N'budget', N'Премиум')) AS v(a, v) WHERE r.code = 'R25';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1549,7 +1589,7 @@ SELECT 'R26', 'tag', id_tag, 0.5, N'Крупные блоки на клею кл
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'speed', N'Да')) AS v(a, v) WHERE r.code = 'R26';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R27', 'tag', id_tag, -0.3, N'Кирпичная кладка — самая медленная' FROM kb.Tag WHERE name = N'Керамический кирпич';
+SELECT 'R27', 'tag', id_tag, -0.3, N'Мелкоштучная кладка может требовать больше операций. Реальная скорость зависит от проекта, организации и квалификации.' FROM kb.Tag WHERE name = N'Керамический кирпич';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Наружная стена'), (N'speed', N'Да')) AS v(a, v) WHERE r.code = 'R27';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1581,7 +1621,7 @@ SELECT 'R40', 'tag', id_tag, 0.6, N'Каркасная перегородка и
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Перегородка')) AS v(a, v) WHERE r.code = 'R40';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R41', 'tag', id_tag, 0.4, N'Перегородочные блоки 100 мм прочнее ГКЛ' FROM kb.Tag WHERE name = N'Газобетон';
+SELECT 'R41', 'tag', id_tag, 0.4, N'Газобетонные перегородочные блоки — альтернатива каркасной перегородке. Несущую способность и крепление сравнивают для конкретных систем.' FROM kb.Tag WHERE name = N'Газобетон';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Перегородка')) AS v(a, v) WHERE r.code = 'R41';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1601,7 +1641,7 @@ SELECT 'R45', 'tag', id_tag, 0.75, N'ГКЛО дольше сохраняет ц
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Перегородка'), (N'fire', N'Да')) AS v(a, v) WHERE r.code = 'R45';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R46', 'tag', id_tag, 0.4, N'Монтаж каркасной перегородки — 1 день' FROM kb.Tag WHERE name = N'Гипсокартон';
+SELECT 'R46', 'tag', id_tag, 0.4, N'Сухой монтаж может сократить технологические паузы. Фиксированный срок в один день без площади и состава работ не обещается.' FROM kb.Tag WHERE name = N'Гипсокартон';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Перегородка'), (N'speed', N'Да')) AS v(a, v) WHERE r.code = 'R46';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1609,11 +1649,11 @@ SELECT 'R47', 'tag', id_tag, 0.4, N'Минвата внутри каркаса �
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Перегородка')) AS v(a, v) WHERE r.code = 'R47';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R50', 'tag', id_tag, 0.85, N'Монолитный бетон B20–B25' FROM kb.Tag WHERE name = N'Бетон';
+SELECT 'R50', 'tag', id_tag, 0.85, N'Для фундамента рассматривается бетон. Класс прочности, водонепроницаемость и морозостойкость назначаются проектом.' FROM kb.Tag WHERE name = N'Бетон';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R50';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R51', 'tag', id_tag, 0.7, N'Каркас из арматуры А500С' FROM kb.Tag WHERE name = N'Арматура';
+SELECT 'R51', 'tag', id_tag, 0.7, N'Для железобетонного фундамента рассматривается арматура; класс, диаметр и схема армирования назначаются проектом.' FROM kb.Tag WHERE name = N'Арматура';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R51';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1625,11 +1665,11 @@ SELECT 'R53', 'tag', id_tag, 0.6, N'Мастика защищает бетон �
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'need_water', N'да'), (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R53';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R54', 'tag', id_tag, 0.6, N'Наплавляемая гидроизоляция — при высоких грунтовых водах' FROM kb.Tag WHERE name = N'Рулонная гидроизоляция';
+SELECT 'R54', 'tag', id_tag, 0.6, N'Рулонная гидроизоляция — один из вариантов системы защиты. При напоре воды требуется расчётное решение узлов и слоёв.' FROM kb.Tag WHERE name = N'Рулонная гидроизоляция';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'need_water', N'да'), (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R54';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R55', 'tag', id_tag, 0.6, N'ЭППС утепляет фундамент и не боится воды' FROM kb.Tag WHERE name = N'Экструдированный пенополистирол';
+SELECT 'R55', 'tag', id_tag, 0.6, N'Для подземной теплоизоляции рассматриваются подходящие марки XPS. Проверяют нагрузку, водопоглощение и совместимость системы.' FROM kb.Tag WHERE name = N'Экструдированный пенополистирол';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R55';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1649,23 +1689,23 @@ SELECT 'R59', 'tag', id_tag, 0.5, N'Цемент М500 Д0 для бетона' 
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Фундамент')) AS v(a, v) WHERE r.code = 'R59';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R60', 'tag', id_tag, 0.75, N'Самое дешёвое покрытие для уклона от 8°' FROM kb.Tag WHERE name = N'Профнастил';
+SELECT 'R60', 'tag', id_tag, 0.75, N'Профнастил включён в учебный экономный сценарий. Цена и минимальный уклон проверяются для конкретного профиля и кровельной системы.' FROM kb.Tag WHERE name = N'Профнастил';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Скатная'), (N'budget', N'Эконом')) AS v(a, v) WHERE r.code = 'R60';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R61', 'tag', id_tag, 0.55, N'Недорогое покрытие, выглядит как черепица' FROM kb.Tag WHERE name = N'Металлочерепица';
+SELECT 'R61', 'tag', id_tag, 0.55, N'Металлочерепица — альтернативный вариант в экономном сценарии; итоговую стоимость считают вместе с комплектующими и монтажом.' FROM kb.Tag WHERE name = N'Металлочерепица';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Скатная'), (N'budget', N'Эконом')) AS v(a, v) WHERE r.code = 'R61';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R62', 'tag', id_tag, 0.8, N'Оптимальный вариант для жилого дома' FROM kb.Tag WHERE name = N'Металлочерепица';
+SELECT 'R62', 'tag', id_tag, 0.8, N'Металлочерепица получает авторский приоритет в сценарии среднего бюджета; это не доказательство универсальной оптимальности.' FROM kb.Tag WHERE name = N'Металлочерепица';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Скатная'), (N'budget', N'Средний')) AS v(a, v) WHERE r.code = 'R62';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R63', 'tag', id_tag, 0.6, N'Для крыш сложной формы и без шума от дождя' FROM kb.Tag WHERE name = N'Мягкая кровля';
+SELECT 'R63', 'tag', id_tag, 0.6, N'Гибкая черепица рассматривается для скатных крыш при совместимом основании. Акустика зависит от всего кровельного пирога.' FROM kb.Tag WHERE name = N'Мягкая кровля';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Скатная'), (N'budget', N'Средний')) AS v(a, v) WHERE r.code = 'R63';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R64', 'tag', id_tag, 0.8, N'Срок службы более 100 лет' FROM kb.Tag WHERE name = N'Керамическая черепица';
+SELECT 'R64', 'tag', id_tag, 0.8, N'Керамическая черепица включена в премиальный сценарий. Срок службы не гарантируется числом из учебного правила.' FROM kb.Tag WHERE name = N'Керамическая черепица';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Скатная'), (N'budget', N'Премиум')) AS v(a, v) WHERE r.code = 'R64';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1681,11 +1721,11 @@ SELECT 'R67', 'tag', id_tag, 0.6, N'ЭППС выдерживает нагруз
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Плоская')) AS v(a, v) WHERE r.code = 'R67';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R68', 'tag', id_tag, -0.9, N'Металлочерепица требует уклона не менее 14°' FROM kb.Tag WHERE name = N'Металлочерепица';
+SELECT 'R68', 'tag', id_tag, -0.9, N'Металлочерепица не выбрана для плоской кровли. Допустимые уклоны берут из инструкции конкретной системы.' FROM kb.Tag WHERE name = N'Металлочерепица';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Плоская')) AS v(a, v) WHERE r.code = 'R68';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R69', 'tag', id_tag, -0.9, N'Черепица требует уклона не менее 22°' FROM kb.Tag WHERE name = N'Керамическая черепица';
+SELECT 'R69', 'tag', id_tag, -0.9, N'Керамическая черепица не выбрана для плоской кровли. Допустимые уклоны и дополнительные меры зависят от системы.' FROM kb.Tag WHERE name = N'Керамическая черепица';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Кровля'), (N'slope', N'Плоская')) AS v(a, v) WHERE r.code = 'R69';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1697,7 +1737,7 @@ SELECT 'R80', 'tag', id_tag, 0.7, N'Негорючий паропроницае�
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'place', N'Фасад')) AS v(a, v) WHERE r.code = 'R80';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R81', 'tag', id_tag, 0.6, N'Дешёвый и лёгкий утеплитель для мокрого фасада' FROM kb.Tag WHERE name = N'Пенополистирол';
+SELECT 'R81', 'tag', id_tag, 0.6, N'Вспененный ППС рассматривается для тех фасадных систем, где он разрешён. Цену и пожарные требования проверяют отдельно.' FROM kb.Tag WHERE name = N'Пенополистирол';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'place', N'Фасад')) AS v(a, v) WHERE r.code = 'R81';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1709,7 +1749,7 @@ SELECT 'R83', 'tag', id_tag, 0.4, N'Каменная вата — группа �
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'fire', N'Да')) AS v(a, v) WHERE r.code = 'R83';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R84', 'tag', id_tag, 0.9, N'ЭППС не впитывает воду и держит нагрузку' FROM kb.Tag WHERE name = N'Экструдированный пенополистирол';
+SELECT 'R84', 'tag', id_tag, 0.9, N'Для пола и фундамента рассматривается XPS соответствующей марки. Нагрузку и условия увлажнения проверяют по документации.' FROM kb.Tag WHERE name = N'Экструдированный пенополистирол';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'place', N'Пол / фундамент')) AS v(a, v) WHERE r.code = 'R84';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1729,15 +1769,15 @@ SELECT 'R88', 'tag', id_tag, 0.7, N'Обязательна изнутри ман
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'place', N'Кровля / мансарда')) AS v(a, v) WHERE r.code = 'R88';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R89', 'tag', id_tag, 0.3, N'Самый дешёвый утеплитель' FROM kb.Tag WHERE name = N'Пенополистирол';
+SELECT 'R89', 'tag', id_tag, 0.3, N'В учебном экономном сценарии ППС получает небольшой дополнительный вес. Утверждение «самый дешёвый» без сопоставимой сметы не используется.' FROM kb.Tag WHERE name = N'Пенополистирол';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'budget', N'Эконом')) AS v(a, v) WHERE r.code = 'R89';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R90', 'tag', id_tag, 0.6, N'Базальтовая вата с фольгой для парной' FROM kb.Tag WHERE name = N'Минеральная вата';
+SELECT 'R90', 'tag', id_tag, 0.6, N'Для бани модель отдаёт приоритет подходящей минераловатной системе. Фольга, пароизоляция и температурные ограничения проверяются по выбранному решению.' FROM kb.Tag WHERE name = N'Минеральная вата';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Утепление'), (N'building', N'Баня')) AS v(a, v) WHERE r.code = 'R90';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R91', 'tag', id_tag, -0.9, N'Пенополистирол в бане недопустим' FROM kb.Tag WHERE name = N'Пенополистирол';
+SELECT 'R91', 'tag', id_tag, -0.9, N'Консервативное предпочтение учебной модели против вспененного ППС в сценарии бани. Это не общий нормативный запрет любого полистирольного материала во всех конструкциях здания.' FROM kb.Tag WHERE name = N'Пенополистирол';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'building', N'Баня')) AS v(a, v) WHERE r.code = 'R91';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1773,7 +1813,7 @@ SELECT 'R110', 'tag', id_tag, 0.6, N'Финишное выравнивание' 
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Отделка стен')) AS v(a, v) WHERE r.code = 'R110';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
-SELECT 'R111', 'tag', id_tag, 0.8, N'Быстро сохнет, не нужна шпатлёвка под покраску' FROM kb.Tag WHERE name = N'Гипсовая штукатурка';
+SELECT 'R111', 'tag', id_tag, 0.8, N'Гипсовая штукатурка рассматривается для сухих помещений. Необходимость финишной шпатлёвки зависит от требуемого качества поверхности и системы отделки.' FROM kb.Tag WHERE name = N'Гипсовая штукатурка';
 INSERT INTO kb.RuleCondition (id_rule, attribute, value)
 SELECT r.id_rule, v.a, v.v FROM kb.[Rule] AS r CROSS JOIN (VALUES (N'element', N'Отделка стен'), (N'humidity', N'Сухое помещение')) AS v(a, v) WHERE r.code = 'R111';
 INSERT INTO kb.[Rule] (code, then_kind, id_tag, cf, explanation)
@@ -1977,6 +2017,406 @@ INSERT kb.ArticleGuide(id_material,guide_json) SELECT id_material,N'{"topic": "f
 GO
 
 INSERT kb.ArticleGuide(id_material,guide_json) SELECT id_material,N'{"topic": "insulation", "topic_name": "Утепление дома", "minutes": 2, "plain": "Что показывает формула R = δ / λ и почему расчёт слоя не заменяет расчёт всей стены.", "takeaways": ["Тепловое сопротивление однородного слоя приближённо определяют как R = δ / λ, где δ — толщина в метрах, λ — теплопроводность в Вт/(м·К).", "Пример: слой 0,10 м при λ = 0,040 имеет R = 2,5 м²·К/Вт.", "Сравнивайте значения λ при одинаковых условиях."], "steps": ["Выберите материал, разрешённый для конкретной конструкции и нагрузки.", "Проверьте непрерывность утепления на откосах, цоколе и примыканиях.", "Защитите материал от намокания и проверьте крепление до закрытия слоя."], "mistakes": ["Сравнивать только плотность без назначения продукта.", "Оставлять щели между плитами или закрывать мокрый утеплитель."], "image": {"file": "wool.jpg", "alt": "Монтаж волокнистого утеплителя", "author": "Erik Mclean", "license": "Pexels License", "license_url": "https://www.pexels.com/license/", "source": "https://www.pexels.com/photo/unrecognizable-worker-insulating-with-stone-wool-6124239/", "download": "https://images.pexels.com/photos/6124239/pexels-photo-6124239.jpeg?auto=compress&cs=tinysrgb&w=1200"}, "diagram": {"file": "insulation.svg", "alt": "Непрерывный слой утепления уменьшает тепловые мосты. Фасадные слои и крепления выбирают как одну систему.", "caption": "Непрерывный слой утепления уменьшает тепловые мосты. Фасадные слои и крепления выбирают как одну систему."}, "videos": [{"title": "Утепление фасада: Дом за год", "author": "ТЕХНОНИКОЛЬ", "provider": "YouTube", "youtube_id": "n_MstVbMNA0", "url": "https://www.youtube.com/watch?v=n_MstVbMNA0", "source": "https://www.tn.ru/"}], "sources": ["https://www.tn.ru/"]}' FROM kb.Material WHERE title=N'Как сравнить утеплители: теплопроводность, толщина и условия';
+GO
+
+INSERT INTO kb.PropertyDefinition (code, name, unit) VALUES
+    (N'density', N'Плотность', N'кг/м³'),
+    (N'thermal_conductivity', N'Теплопроводность', N'Вт/(м·К)'),
+    (N'compressive_strength', N'Прочность на сжатие', N'МПа'),
+    (N'service_life_years', N'Срок службы', N'лет');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R01',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R02',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R03',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R04',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R05',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R06',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R07',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R08',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R09',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R10',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R11',N'{"kind": "Допущение модели", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R20',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R21',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R22',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R23',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R24',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R25',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R26',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R27',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R28',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R29',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R30',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R31',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R32',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R33',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R40',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R41',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R42',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R43',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R44',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R45',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R46',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R47',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "КНАУФ С112: состав комплектной системы", "url": "https://www.knauf.ru/systems/peregorodki/s-112-df/", "scope": "Контекст каркасных перегородок. Огнестойкость и звукоизоляция относятся к комплектной системе, а не отдельному листу."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R50',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R51',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R52',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R53',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: системы изоляции фундаментов", "url": "https://nav.tn.ru/by/systems/fundament/", "scope": "Примеры совместимых систем гидроизоляции и теплоизоляции. Конкретный состав задаётся проектом."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R54',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: системы изоляции фундаментов", "url": "https://nav.tn.ru/by/systems/fundament/", "scope": "Примеры совместимых систем гидроизоляции и теплоизоляции. Конкретный состав задаётся проектом."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R55',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: системы изоляции фундаментов", "url": "https://nav.tn.ru/by/systems/fundament/", "scope": "Примеры совместимых систем гидроизоляции и теплоизоляции. Конкретный состав задаётся проектом."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R56',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R57',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R58',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R59',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R60',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R61',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R62',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R63',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R64',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R65',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R66',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R67',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R68',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R69',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R70',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R80',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R81',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R82',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R83',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R84',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: системы изоляции фундаментов", "url": "https://nav.tn.ru/by/systems/fundament/", "scope": "Примеры совместимых систем гидроизоляции и теплоизоляции. Конкретный состав задаётся проектом."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R85',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: системы изоляции фундаментов", "url": "https://nav.tn.ru/by/systems/fundament/", "scope": "Примеры совместимых систем гидроизоляции и теплоизоляции. Конкретный состав задаётся проектом."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R86',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R87',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R88',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R89',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R90',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: XPS в конструкциях бани", "url": "https://nav.tn.ru/knowledge-base/materialy/teploizolyatsiya/plity-teploizolyatsionnye-iz-ekstruzionnogo-penopolistirola-xps-tekhnonikol/vozmozhno-li-primenyat-penopolistirol-dlya-utepleniya-bani/", "scope": "Условия зависят от зоны и температуры. XPS и вспененный ППС не считаются одним изделием; общий запрет для всего здания из этой ссылки не следует."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R91',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [{"title": "ТЕХНОНИКОЛЬ: XPS в конструкциях бани", "url": "https://nav.tn.ru/knowledge-base/materialy/teploizolyatsiya/plity-teploizolyatsionnye-iz-ekstruzionnogo-penopolistirola-xps-tekhnonikol/vozmozhno-li-primenyat-penopolistirol-dlya-utepleniya-bani/", "scope": "Условия зависят от зоны и температуры. XPS и вспененный ППС не считаются одним изделием; общий запрет для всего здания из этой ссылки не следует."}], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R92',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R100',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R101',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R102',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R103',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R104',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R105',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R110',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R111',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R112',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R113',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R114',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R115',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R116',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R120',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R121',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R122',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.RuleProvenance(code,notes) VALUES(N'R123',N'{"kind": "Авторская эвристика", "basis": "Правило задано в учебной базе проекта; технические ссылки поясняют контекст, но не задают его вес.", "cf_basis": "CF назначен автором учебной модели. Он не измерен на выборке, не откалиброван и не является вероятностью или нормативным коэффициентом.", "source_label": "Исходные условия и заключение в data/knowledge.py", "source_url": "https://github.com/ilovemytea/stroy_kb/blob/codex/defense-review/data/knowledge.py", "references": [], "checked_at": "2026-11-21"}');
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 1,id_tag,N'density',1700,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Керамический кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 1,id_tag,N'thermal_conductivity',0.5,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Керамический кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 1,id_tag,N'compressive_strength',15.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Керамический кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 1,id_tag,N'service_life_years',100,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Керамический кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 2,id_tag,N'density',2300,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Тротуарная плитка';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 2,id_tag,N'compressive_strength',30.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Тротуарная плитка';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 2,id_tag,N'service_life_years',25,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Тротуарная плитка';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 3,id_tag,N'density',1300,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Цемент';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 3,id_tag,N'compressive_strength',50.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Цемент';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 4,id_tag,N'density',800,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 4,id_tag,N'thermal_conductivity',0.21,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 4,id_tag,N'service_life_years',30,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 5,id_tag,N'density',35,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Минеральная вата';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 5,id_tag,N'thermal_conductivity',0.04,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Минеральная вата';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 5,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Минеральная вата';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 6,id_tag,N'density',7850,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Металлочерепица';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 6,id_tag,N'thermal_conductivity',50.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Металлочерепица';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 6,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Металлочерепица';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 7,id_tag,N'density',500,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Брус';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 7,id_tag,N'thermal_conductivity',0.15,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Брус';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 7,id_tag,N'compressive_strength',40.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Брус';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 7,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Брус';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 8,id_tag,N'density',500,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 8,id_tag,N'thermal_conductivity',0.12,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 8,id_tag,N'compressive_strength',3.5,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 8,id_tag,N'service_life_years',100,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 9,id_tag,N'density',500,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 9,id_tag,N'thermal_conductivity',0.12,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 9,id_tag,N'compressive_strength',3.5,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 9,id_tag,N'service_life_years',100,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Газобетон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 10,id_tag,N'density',1850,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Силикатный кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 10,id_tag,N'thermal_conductivity',0.8,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Силикатный кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 10,id_tag,N'compressive_strength',15.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Силикатный кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 10,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Силикатный кирпич';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 11,id_tag,N'density',33,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Экструдированный пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 11,id_tag,N'thermal_conductivity',0.03,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Экструдированный пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 11,id_tag,N'compressive_strength',0.3,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Экструдированный пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 11,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Экструдированный пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 12,id_tag,N'density',15,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 12,id_tag,N'thermal_conductivity',0.04,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 12,id_tag,N'service_life_years',40,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Пенополистирол';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 13,id_tag,N'density',800,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Влагостойкий гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 13,id_tag,N'thermal_conductivity',0.21,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Влагостойкий гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 13,id_tag,N'service_life_years',30,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Влагостойкий гипсокартон';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 14,id_tag,N'density',7850,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Профнастил';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 14,id_tag,N'thermal_conductivity',50.0,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Профнастил';
+GO
+
+INSERT kb.MaterialProperty(id_product,id_tag,property_code,numeric_value,conditions,source_kind,source_url) SELECT 14,id_tag,N'service_life_years',50,N'Условия измерения и паспорт изделия не указаны. Значение учебное; не использовать как проектную характеристику.',N'Учебный каталог',N'https://github.com/ilovemytea/stroy_kb/blob/main/data/catalog.sql' FROM kb.Tag WHERE name=N'Профнастил';
 GO
 
 EXEC kb.usp_RecalcRanks;

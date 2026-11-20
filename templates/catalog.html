@@ -8,12 +8,12 @@
   <tr><th>Продукция</th><th>Категория</th><th>Производитель</th><th>Партия</th><th class="num">Цена, руб.</th>
       <th>Сырьё</th><th class="num">Плотность, кг/м³</th><th class="num">λ, Вт/(м·К)</th><th class="num">Прочность, МПа</th></tr>
   {% for r in rows %}
-    <tr><td><a href="{{ url_for('search', q=r.category_name) }}">{{ r.product_name }}</a></td><td>{{ r.category_name }}</td>
+    <tr><td><a href="{{ url_for('search', q=r.category_name) }}">{{ r.product_name }}</a>{% if r.review_issue %}<p class="data-warning">{{ r.review_issue }}</p>{% endif %}</td><td>{{ r.category_name }}</td>
         <td>{{ r.manufacturer_name }}<br><small>{{ r.city }}</small></td>
         <td>{{ r.batch_name or '' }}</td>
         <td class="num">{{ '%.2f'|format(r.base_price) if r.base_price else '' }}{% if r.packaging_unit %}<br><small>за {{ r.packaging_unit }}</small>{% endif %}</td>
-        <td>{{ r.raw_material_type or '' }}</td><td class="num">{{ r.density or '' }}</td>
-        <td class="num">{{ r.thermal_conductivity or '' }}</td><td class="num">{{ r.compressive_strength or '' }}</td></tr>
+        <td>{{ r.raw_material_type or '' }}</td><td class="num">{{ 'требует проверки' if r.review_issue else (r.density or '') }}</td>
+        <td class="num">{{ 'требует проверки' if r.review_issue else (r.thermal_conductivity or '') }}</td><td class="num">{{ 'требует проверки' if r.review_issue else (r.compressive_strength or '') }}</td></tr>
   {% endfor %}
 </table></div>
 {% endblock %}

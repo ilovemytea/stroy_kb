@@ -2,6 +2,7 @@
 {% block title %}Статистика — СтройМир{% endblock %}
 {% block content %}
 <h1>Исследование характеристик базы знаний</h1>
+{{ research_html|safe }}
 <div class="tiles" style="margin-top:10px">
   <div class="tile"><div class="n">{{ engine.documents }}</div><div class="l">статей</div></div>
   <div class="tile"><div class="n">{{ engine.concepts }}</div><div class="l">понятий</div></div>

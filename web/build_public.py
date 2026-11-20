@@ -57,6 +57,7 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
     from search import stemmer
     from expert import infer
     from data.enrichment import guide_for, collections
+    from data.review_model import property_records, rule_note, CATALOG_ISSUES
 
     categories = [{"id": i, "name": n, "description": d}
                   for i, (n, d) in enumerate(K.CATEGORIES, 1)]
@@ -76,6 +77,9 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
     for doc,article in zip(docs,K.ARTICLES):
         doc["guide"] = guide_for(article)
     products = catalog(source)
+    properties = property_records(products)
+    for product in products:
+        product['quality_issue'] = CATALOG_ISSUES.get(product['id'])
     ix = KnowledgeIndex(docs, concepts, relations, products)
     questions = [{"attribute": a, "question_text": q, "options_list": opts,
                   "cond_attribute": cond[0] if cond else None,
@@ -87,10 +91,15 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
               "id_tag": concept_ids[then[1]] if then[0] == "tag" else None,
               "tag_name": then[1] if then[0] == "tag" else None, "cf": cf, "explanation": explanation}
              for code, conditions, then, cf, explanation in K.RULES]
+    for rule, original in zip(rules,K.RULES):
+        rule['provenance'] = rule_note(original)
+    research_path=source/'docs/research-results.json'
+    research=json.loads(research_path.read_text(encoding='utf-8')) if research_path.exists() else None
     payload = {
         "documents": docs, "concepts": concepts, "relations": relations, "products": products,
         "collections": collections(K.ARTICLES), "categories": categories, "types": [{"id": i, "name": n} for n, i in type_ids.items()],
         "questions": questions, "rules": rules, "labels": RELATION_LABELS,
+        "properties": properties, "catalog_issues": CATALOG_ISSUES, "research": research,
         "postings": ix.postings, "positions": ix.positions, "field_len": ix.field_len,
         "avg_len": ix.avg_len, "idf": ix.idf, "vocabulary": ix.speller.freq,
         "phrases": [[list(k), v] for k, v in ix.concept_phrases.items()],
@@ -102,6 +111,10 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
             "PARTICIPLE_1", "PARTICIPLE_2", "VERB_1", "VERB_2", "NOUN", "SUPERLATIVE", "DERIVATIONAL"]},
         "stats": {k: v for k, v in ix.stats().items() if k != "build_ms"},
     }
+    if research:
+        fingerprint=hashlib.sha256(json.dumps([K.CONCEPTS,K.RELATIONS,K.ARTICLES,K.RULES],ensure_ascii=False,sort_keys=True).encode()).hexdigest()
+        if research['dataset_sha256'] != fingerprint:
+            raise ValueError('Research is stale: run python docs/research.py before building')
     encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     source_bytes = b"".join(p.read_bytes() for p in sorted((HERE / "src").iterdir()) if p.is_file())
     version = hashlib.sha256(encoded.encode() + source_bytes).hexdigest()[:12]
@@ -111,6 +124,9 @@ def build(source, site_url='http://dusovstroimir.mooo.com/'):
         if item.is_file():
             shutil.copy2(item, dist / item.name)
     shutil.copytree(source / "static/media", dist / "media", dirs_exist_ok=True)
+    if research_path.exists():shutil.copy2(research_path,dist/'research-results.json')
+    app_script=dist/'app.js'
+    app_script.write_text(app_script.read_text(encoding='utf-8').replace("from './review.js'","from './review.js?v="+version+"'"),encoding='utf-8')
     entry=dist/'index.html'
     entry.write_text(entry.read_text(encoding='utf-8').replace('src="./app.js"','src="./app.js?v='+version+'"').replace('href="./style.css"','href="./style.css?v='+version+'"'),encoding='utf-8')
     (dist / "knowledge.json").write_text(encoded, encoding="utf-8")
